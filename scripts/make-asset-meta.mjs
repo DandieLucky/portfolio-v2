@@ -34,7 +34,10 @@ async function walk(dir) {
     try {
       const m = await sharp(full, { failOn: 'none' }).metadata();
       const rel = '/' + path.relative(path.join(ROOT, 'public'), full);
-      out[rel] = [m.width, m.height];
+      // Browsers apply EXIF orientation before displaying the original photograph.
+      out[rel] = m.orientation >= 5 && m.orientation <= 8
+        ? [m.height, m.width]
+        : [m.width, m.height];
     } catch {
       skipped += 1;
     }

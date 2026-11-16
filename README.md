@@ -23,7 +23,10 @@ Repositori `dandielucky.github.io` dan website portofolio lama tetap terpisah.
 - Tombol jeda animasi di header menyimpan pilihan pengunjung di `localStorage`.
 - `prefers-reduced-motion` otomatis mematikan motion dekoratif, termasuk tilt.
 - Filter proyek, lightbox foto, salin email, video, unduh CV, dan navigasi dua bahasa tetap tersedia.
-- Semua 79 file di `public/assets/` dipertahankan tanpa perubahan isi. Tidak ada dependensi produksi baru.
+- Semua 79 aset awal dan 35 aset tambahan tetap utuh. Tidak ada dependensi produksi baru.
+- Nexa dan Snackpedia memiliki halaman proyek dalam dua bahasa. Matahari Grosir menampilkan 15 desain tambahan serta tiga video; Posh by Her memuat 11 foto di halaman proyek dan Fotografi.
+- Beranda menampilkan delapan karya pilihan. Arsip memuat 11 proyek dengan urutan branding/desain, konten, video, lalu fotografi.
+- Tanggal dan perangkat lunak untuk Nexa serta Snackpedia belum dicantumkan karena belum tersedia dalam sumber.
 - Fotografi menggabungkan Posh by Her, dokumentasi BNSP, arsip foto, dan potret profil. Foto Posh by Her dibaca dari folder aset saat build dan dipakai bersama oleh halaman proyek dan Fotografi.
 - Urutan di beranda, arsip, dan proyek berikutnya memakai nilai `order` konten yang sama.
 - Pusinfomar adalah proyek editing video; proyek UI/UX instansi pemerintah di riwayat pengalaman merupakan entri terpisah.
@@ -88,6 +91,7 @@ atau menunjuk repo portofolio lama. Login GitHub/Git di komputer tetap diperluka
 | Isi proyek dua bahasa | `src/content/work/id/` dan `src/content/work/en/` |
 | Teks UI dan kontak | `src/i18n/ui.ts` |
 | Pengalaman dan keahlian | `src/data/timeline.ts` |
+| Galeri Nexa, Snackpedia, dan desain Matahari Grosir | `src/data/project-galleries.ts` |
 | Album fotografi dan foto Posh by Her | `src/data/photography.ts` |
 | Foto dan video asli | `public/assets/` |
 | CV | `public/assets/cv/Dandie-Lucky-Maulana_CV.pdf` |

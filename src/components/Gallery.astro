@@ -7,6 +7,7 @@ interface Item {
   src: string;
   alt: string;
   caption?: string;
+  background?: string;
 }
 
 interface Props {
@@ -39,7 +40,7 @@ const dims = (src: string) => sizeMap[src.startsWith('/') ? src : `/${src}`] ?? 
     return (
       <figure>
         {exists ? (
-          <a class="slot-media" href={`/${clean}`} data-lightbox-link aria-label={item.alt}>
+          <a class="slot-media" href={`/${clean}`} data-lightbox-link aria-label={item.alt} style={item.background ? { background: item.background } : undefined}>
             <img
               src={`/${clean}`}
               alt={item.alt}

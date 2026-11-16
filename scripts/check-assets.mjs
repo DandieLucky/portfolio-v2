@@ -29,7 +29,7 @@ function collectReferences(dir) {
     if (entry.isDirectory()) collectReferences(file);
     else if (/\.(astro|mdx|ts|js|css|json)$/.test(entry.name)) {
       const source = readFileSync(file, 'utf8');
-      for (const match of source.matchAll(/["'`]((?:\/)?assets\/[^"'`\s<>]+)["'`]/g)) {
+      for (const match of source.matchAll(/["'`]((?:\/)?assets\/[^"'`<>\r\n]+)["'`]/g)) {
         if (!match[1].includes('${')) references.add(match[1]);
       }
     }
