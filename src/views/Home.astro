@@ -9,7 +9,7 @@ interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = ui[lang];
 const id = lang === 'id';
-const selected = await getFeatured(lang, 6);
+const selected = await getFeatured(lang, 8);
 const services = id ? ['Branding & identitas', 'Desain grafis', 'Konten sosial', 'Video & motion', 'Fotografi'] : ['Branding & identity', 'Graphic design', 'Social content', 'Video & motion', 'Photography'];
 const serviceNotes = id ? ['Karakter visual sebuah brand.', 'Ide yang menemukan bentuk.', 'Cerita dalam setiap unggahan.', 'Beri gerak pada sebuah ide.', 'Menangkap momen, menyimpan rasa.'] : ['A brand’s visual character.', 'Giving an idea a visual form.', 'A story in every post.', 'Put an idea into motion.', 'Capture a moment, keep a feeling.'];
 ---

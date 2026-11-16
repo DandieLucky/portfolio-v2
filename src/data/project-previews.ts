@@ -1,5 +1,17 @@
 /** Presentation only: reuse the existing public files without overwriting originals. */
 export const projectPreviews: Record<string, { src: string; position?: string; fit?: 'cover' | 'contain' }> = {
+  'nexa': {
+    src: '/assets/work/nexa logo branding/logo 2.png',
+    fit: 'contain',
+  },
+  'snackpedia': {
+    src: '/assets/work/Branding Snackpedia/5.png',
+    fit: 'contain',
+  },
+  'matahari-grosir': {
+    src: '/assets/work/matahari-grosir/KERIPIK UBI MIX (250 GRAM).png',
+    fit: 'contain',
+  },
   'olimpiade-polimedia-2025': {
     src: '/assets/work/olimpiade-polimedia-2025/poster-04.jpg',
     position: '50% 27%',
