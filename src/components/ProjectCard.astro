@@ -1,7 +1,9 @@
 ---
 import { assetExists } from '../lib/work';
 import Artwork from './Artwork.astro';
+import Arrow from './Arrow.astro';
 import { projectPreviews } from '../data/project-previews';
+import '../styles/work.css';
 
 interface Props {
   href: string;
@@ -17,30 +19,25 @@ interface Props {
 }
 
 const { href, title, meta, cover, slug, role, tags, status = 'live', badge, index = 0 } = Astro.props;
-const clean = cover.startsWith('/') ? cover.slice(1) : cover;
 const hasCover = assetExists(projectPreviews[slug ?? '']?.src ?? cover);
+const isEnglish = href.startsWith('/en');
 ---
 
-<a class="card" href={href} data-tags={tags.join(' ')} data-reveal style={`--i:${index}`}>
+<a class={`card project-card project-card--${index % 4}`} href={href} data-tags={tags.join(' ')} data-reveal style={`--i:${Math.min(index, 3)}`}>
   <div class="card-media">
     {hasCover ? (
       <Artwork slug={slug} cover={cover} alt={title} />
     ) : (
-      <div class="slot" style="height:100%;margin:0">
-        <div class="slot-inner">
-          <span class="slot-label">Slot cover</span>
-          <p><code>public/{clean}</code></p>
-        </div>
-      </div>
+      <div class="card-art-fallback" aria-hidden="true"><span>✳</span></div>
     )}
+    <span class="card-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+    <span class="card-open" aria-hidden="true"><Arrow /></span>
+    {badge ? <span class="card-status">{badge}</span> : status === 'progress' ? <span class="card-status">{isEnglish ? 'In progress' : 'Dalam proses'}</span> : null}
   </div>
 
   <div class="card-body">
-    <div>
       <span class="card-title">{title}</span>
-      <span class="card-meta">{meta.join(' · ')}</span>
+      <span class="card-meta">{meta.filter(Boolean).join(' / ')}</span>
       {role && <span class="card-role">{role}</span>}
-    </div>
-    {badge ? <span class="badge">{badge}</span> : status === 'progress' ? <span class="badge">Segera</span> : null}
   </div>
 </a>

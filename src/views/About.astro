@@ -1,83 +1,66 @@
 ---
 import Base from '../layouts/Base.astro';
 import Slot from '../components/Slot.astro';
-import { ui, href, site, type Lang } from '../i18n/ui';
+import { ui, site, type Lang } from '../i18n/ui';
 import { timeline, skills } from '../data/timeline';
-
-interface Props {
-  lang: Lang;
-}
-
+import '../styles/secondary.css';
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = ui[lang];
+const id = lang === 'id';
+const skillGlyphs = ['M24 3v42M3 24h42M9 9l30 30M39 9 9 39', 'M5 7h38v34H5zM5 17h38M16 17v24', 'M14 7 40 24 14 41Z', 'M24 4a20 20 0 1 0 0 40 20 20 0 0 0 0-40ZM24 14a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z', 'M24 2c0 15-7 22-22 22 15 0 22 7 22 22 0-15 7-22 22-22C31 24 24 17 24 2Z', 'M17 10 4 24l13 14M31 10l13 14-13 14M27 6l-6 36'];
 const orderedTimeline = [...timeline].sort((a, b) => {
-  const rank = (year: string) => /sekarang/.test(year) ? Infinity : Number(year.match(/\d{4}/)?.[0] ?? 0);
+  const rank = (year: string) => /sekarang|present/.test(year) ? Infinity : Number(year.match(/\d{4}/)?.[0] ?? 0);
   return rank(b.year) - rank(a.year);
 });
 ---
 
 <Base lang={lang} title={t.about.title} description={t.about.description}>
-  <section class="section" style="padding-top:calc(var(--header-h) + clamp(2.5rem,7vw,6rem))">
+  <section class="v2-about-intro page-opening">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-reveal>{t.about.eyebrow}</p>
-        <h1 data-reveal style="--i:1;max-width:26ch">{t.about.headline}</h1>
-      </div>
-
-      <div class="about-grid">
-        <div data-reveal>
-          <Slot src="/assets/about/portrait.jpg" alt="Dandie Lucky Maulana" ratio="4 / 5" />
-          <p class="mono muted" style="margin-top:0.75rem">
-            {lang === 'id' ? 'Jakarta Selatan · Semester 6 · IPK 3.86/4.00' : 'South Jakarta · Semester 6 · GPA 3.86/4.00'}
-          </p>
+      <div class="v2-page-kicker"><p class="eyebrow">01 / {t.nav.about}</p><span>{id ? 'Di balik karya' : 'Behind the work'} ↘</span></div>
+      <h1 class="v2-page-title" data-reveal>{id ? 'Kenalan dulu,' : 'Meet the mind,'}<br /><span class="v2-cobalt">{id ? 'saya Dandie.' : 'I’m Dandie.'}</span></h1>
+      <div class="v2-about-split">
+        <div class="v2-portrait-stage" data-reveal>
+          <div class="v2-portrait-label"><span>JAKARTA SELATAN, ID</span><span aria-hidden="true">✳</span></div>
+          <Slot src="/assets/about/portrait.jpg" alt={id ? 'Dandie Lucky Maulana' : 'Portrait of Dandie Lucky Maulana'} ratio="4 / 5" />
+          <span class="v2-portrait-sticker">{id ? 'Selalu ingin\ntahu.' : 'Always\ncurious.'}</span>
+          <p class="v2-portrait-caption">GRAPHIC DESIGN · VISUAL CONTENT · MOTION</p>
         </div>
-
-        <div>
-          {t.about.paragraphs.map((p, i) => (
-            <p class="lede" style={`max-width:60ch;margin-bottom:1.25rem;--i:${i}`} data-reveal>{p}</p>
-          ))}
-
-          <div class="cta-actions" style="margin-top:2rem;--i:3" data-reveal>
-            <a class="btn" href={site.cv} download>
-              {t.ui.cv} <span aria-hidden="true">↓</span>
-            </a>
-            <a class="btn btn--ghost" href={`mailto:${site.email}`}>{site.email}</a>
+        <div class="v2-about-copy" data-reveal>
+          <p class="v2-about-statement">{id ? 'Ide boleh liar. Eksekusi tetap rapi.' : 'Curious ideas. Considered execution.'}</p>
+          {t.about.paragraphs.map((p) => <p>{p.replace('semester 6', 'semester 5').replace('sixth-semester', 'fifth-semester')}</p>)}
+          <div class="v2-profile-facts">
+            <div><span>{id ? 'Pendidikan' : 'Education'}</span><strong>D4 Teknologi Rekayasa Multimedia</strong><small>Polimedia · 2024–2028</small></div>
+            <div><span>{id ? 'Saat ini' : 'Currently'}</span><strong>Semester 5</strong><small>{id ? 'IPK 3,86/4,00 · hingga semester 4' : 'GPA 3.86/4.00 · through semester 4'}</small></div>
           </div>
+          <div class="v2-actions"><a class="btn" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a><a class="link" href={`mailto:${site.email}`}>{id ? 'Ajak kolaborasi' : 'Let’s collaborate'} <span class="v2-inline-arrow" aria-hidden="true">↗</span></a></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
+  <section class="section v2-experience-section">
     <div class="wrap">
-      <h2 data-reveal>{t.about.timelineTitle}</h2>
-      <div class="timeline" style="margin-top:2rem">
+      <div class="v2-section-heading"><p class="eyebrow">02 / {id ? 'Pengalaman' : 'Experience'}</p><h2>{id ? 'Belajar lewat' : 'Learning through'}<br /><span class="v2-cobalt">{id ? 'karya nyata.' : 'real work.'}</span></h2></div>
+      <div class="v2-experience-list">
         {orderedTimeline.map((item, i) => (
-          <div class="timeline-item" data-reveal style={`--i:${Math.min(i, 5)}`}>
-            <span class="t-year">{item.year ? (lang === 'en' ? item.year.replace('Mei', 'May').replace('sekarang', 'present') : item.year) : '—'}</span>
-            <span>
-              <span class="t-role">{item.role[lang]}</span><br />
-              <span class="t-org">{item.org[lang]}</span>
-            </span>
-          </div>
+          <article class="v2-experience" data-reveal>
+            <span class="v2-list-number">{String(i + 1).padStart(2, '0')}</span>
+            <div><h3>{item.org[lang]}</h3><p>{item.role[lang]}</p></div>
+            <span class="v2-experience-year">{item.year ? (id ? item.year : item.year.replace('Mei', 'May').replace('sekarang', 'present')) : '—'}</span>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
+  <section class="section v2-skills-section">
     <div class="wrap">
-      <h2 data-reveal>{t.about.skillsTitle}</h2>
-      <div class="skills-grid">
-        {skills.map((block, i) => (
-          <div class="skill-block" data-reveal style={`--i:${i}`}>
-            <h3>{block.title[lang]}</h3>
-            <ul>
-              {block.items.map((it) => <li>{it}</li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <div class="v2-section-heading"><p class="eyebrow">03 / {id ? 'Keahlian & alat' : 'Skills & tools'}</p><h2>{id ? 'Satu ide.' : 'One idea.'}<br />{id ? 'Banyak medium.' : 'Many mediums.'}</h2></div>
+      <div class="v2-skills-grid">{skills.map((block, i) => (
+        <article class="v2-skill" data-reveal><svg class="v2-skill-symbol" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d={skillGlyphs[i]} /></svg><h3>{block.title[lang]}</h3><ul>{block.items.map((item) => <li>{item}</li>)}</ul></article>
+      ))}</div>
     </div>
   </section>
 </Base>

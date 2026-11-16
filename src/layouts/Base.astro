@@ -1,7 +1,5 @@
 ---
 import '@fontsource-variable/inter';
-import '@fontsource-variable/fraunces';
-import '@fontsource-variable/fraunces/full-italic.css';
 import '@fontsource-variable/jetbrains-mono';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
@@ -56,20 +54,12 @@ const ogImage = `${siteUrl}${og ?? '/assets/og.png'}`;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <meta name="theme-color" content="#f8f6f1" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#faf9f5" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <script is:inline>
-      // Tema dipasang sebelum paint supaya tidak ada kedipan putih
-      // saat pengunjung yang memilih tema gelap membuka halaman.
-      try {
-        if (localStorage.getItem('theme') === 'dark') {
-          document.documentElement.dataset.theme = 'dark';
-        }
-      } catch (e) {}
-    </script>
+
 
     <ClientRouter />
 
@@ -113,10 +103,6 @@ const ogImage = `${siteUrl}${og ?? '/assets/og.png'}`;
 
     <Footer lang={lang} noCta={noCta} />
 
-    <div class="hover-preview" aria-hidden="true" data-hover-preview>
-      <img alt="" data-preview-img width="320" height="240" />
-      <span class="label" data-preview-label></span>
-    </div>
 
     <div class="lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Gambar diperbesar">
       <button class="lightbox-close" type="button" data-lightbox-close aria-label="Tutup">✕</button>

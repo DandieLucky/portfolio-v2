@@ -1,56 +1,51 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import Arrow from '../components/Arrow.astro';
 import { ui, href, type Lang } from '../i18n/ui';
 import { getWork } from '../lib/work';
 import { disciplines, disciplineLabel } from '../data/disciplines';
+import '../styles/work.css';
 
-interface Props {
-  lang: Lang;
-}
-
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = ui[lang];
 const projects = await getWork(lang);
-
 const used = disciplines.filter((d) => projects.some((p) => p.data.disciplines.includes(d.id)));
+const count = (id: string) => projects.filter((p) => p.data.disciplines.includes(id)).length;
 ---
 
 <Base lang={lang} title={t.work.title} description={t.work.description}>
-  <section class="section" style="padding-top:calc(var(--header-h) + clamp(2.5rem,7vw,6rem))">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-reveal>{t.work.eyebrow} — {String(projects.length).padStart(2, '0')}</p>
-        <h1 data-reveal style="--i:1">{lang === 'id' ? 'Semua karya' : 'All work'}</h1>
-        <p class="lede" data-reveal style="--i:2">{t.work.lede}</p>
+  <section class="work-index">
+    <div class="work-index-hero">
+      <div class="wrap">
+        <div class="work-index-topline">
+          <p class="eyebrow" data-reveal>{lang === 'id' ? 'Arsip kreatif' : 'Creative archive'} / 2024–2026</p>
+          <span class="work-index-count">{String(projects.length).padStart(2, '0')} {lang === 'id' ? 'proyek' : 'projects'}</span>
+        </div>
+        <div class="work-index-intro">
+          <h1 data-reveal>{lang === 'id' ? 'Karya &' : 'Work &'}<br /><span>{lang === 'id' ? 'eksplorasi.' : 'exploration.'}</span></h1>
+          <div class="work-index-note" data-reveal style="--i:1">
+            <span class="work-index-star" aria-hidden="true"><svg viewBox="0 0 80 80" width="62" height="62" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"><path d="M40 7v66M7 40h66M17 17l46 46M17 63l46-46" /></svg></span>
+            <p>{lang === 'id' ? 'Dari desain untuk layar kecil sampai visual yang mengisi panggung. Ini karya-karya yang saya kerjakan.' : 'From design for small screens to visuals that fill a stage. A collection of the things I make.'}</p>
+            <a href="#project-archive" class="work-index-down">{lang === 'id' ? 'Jelajahi arsip' : 'Explore the archive'} <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
       </div>
-
-      <div class="filters" role="group" aria-label="Filter karya" data-reveal>
-        <button class="filter" type="button" data-filter="all" aria-pressed="true">{t.work.all}</button>
-        {used.map((d) => (
-          <button class="filter" type="button" data-filter={d.id} aria-pressed="false">
-            {disciplineLabel(d.id, lang)}
-          </button>
-        ))}
+    </div>
+    <div class="wrap work-index-archive" id="project-archive">
+      <div class="work-filter-row">
+        <p class="eyebrow">{lang === 'id' ? 'Pilih bidang' : 'Choose a discipline'}</p>
+        <div class="filters work-filters" role="group" aria-label={lang === 'id' ? 'Filter karya' : 'Filter projects'}>
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">{t.work.all} <span>{String(projects.length).padStart(2, '0')}</span></button>
+          {used.map((d) => <button class="filter" type="button" data-filter={d.id} aria-pressed="false">{disciplineLabel(d.id, lang)} <span>{String(count(d.id)).padStart(2, '0')}</span></button>)}
+        </div>
       </div>
-
-      <div class="card-grid" data-card-grid>
-        {projects.map((p, i) => (
-          <ProjectCard
-            href={href(`/work/${p.data.slug}`, lang)}
-            title={p.data.title}
-            meta={[p.data.year, p.data.client]}
-            cover={p.data.cover ?? ''}
-            slug={p.data.slug}
-            role={p.data.role}
-            tags={p.data.disciplines}
-            status={p.data.status}
-            index={i}
-          />
-        ))}
+      <div class="card-grid work-index-grid" data-card-grid>
+        {projects.map((p, i) => <ProjectCard href={href(`/work/${p.data.slug}`, lang)} title={p.data.title} meta={[p.data.year, p.data.client]} cover={p.data.cover ?? ''} slug={p.data.slug} role={p.data.role} tags={p.data.disciplines} status={p.data.status} index={i} />)}
       </div>
-
-      <p class="muted" data-filter-empty hidden style="margin-top:2rem">{t.work.empty}</p>
+      <p class="work-filter-empty" data-filter-empty hidden>{t.work.empty}</p>
+      <div class="work-archive-end"><span>{lang === 'id' ? 'Akhir arsip. Awal ide baru?' : 'End of the archive. Start of something new?'}</span><a href={href('/contact', lang)}>{lang === 'id' ? 'Ayo ngobrol' : 'Let’s talk'} <Arrow /></a></div>
     </div>
   </section>
 </Base>

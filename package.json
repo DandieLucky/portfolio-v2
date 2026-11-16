@@ -1,12 +1,12 @@
 {
-  "name": "dandie-portfolio",
+  "name": "dandie-portfolio-v2",
   "type": "module",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "node scripts/check-assets.mjs --summary && node scripts/make-asset-meta.mjs && astro build && node scripts/make-sitemap.mjs",
+    "build": "node scripts/check-assets.mjs --summary && node scripts/make-asset-meta.mjs && astro build && node scripts/make-sitemap.mjs && node scripts/apply-site-base.mjs",
     "preview": "astro preview",
     "check-assets": "node scripts/check-assets.mjs",
     "assets:placeholders": "python3 scripts/make-placeholders.py",

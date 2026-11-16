@@ -4,7 +4,7 @@
 #   npm run deploy          (atau ./scripts/deploy.sh)
 #
 # Ganti nama proyek kalau perlu alamat lain:
-#   PROJECT=dandielucky npm run deploy
+#   PROJECT=nama-proyek-versi-2 npm run deploy
 #
 # Autentikasi — pilih salah satu, cukup sekali:
 #   1. OAuth (paling mudah, sekali klik):
@@ -20,7 +20,11 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-PROJECT="${PROJECT:-dandielucky}"
+PROJECT="${PROJECT:-portfolio-dandie-v2}"
+if [ "$PROJECT" = "dandielucky" ]; then
+  echo "Deploy dihentikan: proyek dandielucky adalah portofolio lama. Gunakan nama proyek versi 2."
+  exit 1
+fi
 WRANGLER="./node_modules/.bin/wrangler"
 TOKEN_FILE="${HOME}/.cloudflare-pages-token"
 
@@ -53,7 +57,7 @@ MSG
 fi
 
 echo "→ build"
-npm run build
+SITE_BASE= ASTRO_TELEMETRY_DISABLED=1 npm run build
 
 echo "→ kirim ke Cloudflare Pages (proyek: ${PROJECT})"
 "$WRANGLER" pages deploy dist \

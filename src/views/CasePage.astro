@@ -1,102 +1,54 @@
 ---
 import Base from '../layouts/Base.astro';
 import Slot from '../components/Slot.astro';
+import Artwork from '../components/Artwork.astro';
+import Arrow from '../components/Arrow.astro';
 import { render } from 'astro:content';
 import { ui, href, type Lang } from '../i18n/ui';
 import { getProject, getNeighbour } from '../lib/work';
 import { disciplineLabel } from '../data/disciplines';
+import '../styles/work.css';
 
-interface Props {
-  lang: Lang;
-  slug: string;
-}
-
+interface Props { lang: Lang; slug: string; }
 const { lang, slug } = Astro.props;
 const entry = await getProject(lang, slug);
 if (!entry) throw new Error(`Proyek tidak ditemukan: ${slug}`);
 const t = ui[lang];
 const next = await getNeighbour(lang, slug);
-
 const { Content, headings } = await render(entry);
 const toc = headings.filter((h) => h.depth === 2);
-
 const meta = [
   { label: t.casePage.role, value: entry.data.role },
-  { label: t.casePage.year, value: entry.data.year },
+  { label: t.casePage.year, value: entry.data.year || '—' },
   { label: t.casePage.client, value: entry.data.client },
-  { label: t.casePage.scope, value: entry.data.scope.join(' · ') },
+  { label: t.casePage.scope, value: entry.data.scope.join(' / ') },
 ];
 ---
 
 <Base lang={lang} title={`${entry.data.title} — Dandie Lucky Maulana`} description={entry.data.summary} og={entry.data.cover}>
-  <article>
-    <header class="case-hero section--tight">
+  <article class="project-case">
+    <header class="case-hero">
       <div class="wrap">
-        <a class="back-link" href={href('/work', lang)}>← {t.ui.back}</a>
-
-        <p class="eyebrow" data-reveal>
-          {entry.data.disciplines.map((d) => disciplineLabel(d, lang)).join(' · ')}
-        </p>
-
-        <h1 class="case-title" style="margin-top:1rem" data-reveal>{entry.data.title}</h1>
+        <div class="case-topline"><a class="back-link" href={href('/work', lang)}>← {t.ui.back}</a><span class="case-index">{lang === 'id' ? 'Proyek' : 'Project'} / {String(entry.data.order).padStart(2, '0')}</span></div>
+        <p class="eyebrow case-disciplines" data-reveal>{entry.data.disciplines.map((d) => disciplineLabel(d, lang)).join(' / ')}</p>
+        <h1 class="case-title" data-reveal>{entry.data.title}</h1>
         <p class="case-sub" data-reveal style="--i:1">{entry.data.tagline}</p>
-
-        <dl class="case-meta" data-reveal style="--i:2">
-          {meta.map((m) => (
-            <div>
-              <dt>{m.label}</dt>
-              <dd>{m.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <dl class="case-meta" data-reveal style="--i:2">{meta.map((m) => <div><dt>{m.label}</dt><dd>{m.value}</dd></div>)}</dl>
       </div>
     </header>
-
-    {entry.data.cover && (
-      <div class="wrap" data-reveal>
-        <Slot src={entry.data.cover} alt={entry.data.title} ratio="16 / 9" flag={true} />
-      </div>
-    )}
-
+    {entry.data.cover && <div class="case-cover" data-reveal><div class="wrap"><Slot src={entry.data.cover} alt={entry.data.title} ratio="16 / 9" flag={true} /></div></div>}
     <div class="wrap">
       <div class="case-body">
         <aside class="case-side">
-          <span class="mono">{t.casePage.contents}</span>
-          <nav class="case-toc" data-toc>
-            {toc.map((h) => (
-              <a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a>
-            ))}
-          </nav>
-          {entry.data.tools.length > 0 && (
-            <>
-              <span class="mono" style="margin-top:1rem">{lang === 'id' ? 'Alat' : 'Tools'}</span>
-              <div class="tags">
-                {entry.data.tools.map((tool) => <span class="tag">{tool}</span>)}
-              </div>
-            </>
-          )}
+          <div class="case-side-inner">
+            <span class="eyebrow">{t.casePage.contents}</span>
+            <nav class="case-toc" data-toc aria-label={t.casePage.contents}>{toc.map((h, i) => <a href={`#${h.slug}`} data-toc-link={h.slug}><span>{String(i + 1).padStart(2, '0')}</span>{h.text}</a>)}</nav>
+            {entry.data.tools.length > 0 && <div class="case-tools"><span class="eyebrow">{lang === 'id' ? 'Dibuat dengan' : 'Made with'}</span><div class="tags">{entry.data.tools.map((tool) => <span class="tag">{tool}</span>)}</div></div>}
+          </div>
         </aside>
-
-        <div class="case-main" data-case-main>
-          <Content />
-        </div>
+        <div class="case-main" data-case-main><Content /></div>
       </div>
     </div>
-
-    {next && (
-      <section class="section--tight" style="margin-top:clamp(3rem,7vw,6rem);border-top:1px solid var(--line)">
-        <div class="wrap">
-          <p class="eyebrow" data-reveal>{t.casePage.next}</p>
-          <a class="work-row" href={href(`/work/${next.data.slug}`, lang)} data-preview={next.data.cover ?? ''} data-preview-label={next.data.client} data-reveal>
-            <span class="num">→</span>
-            <span>
-              <span class="title">{next.data.title}</span>
-              <span class="meta"><span>{next.data.client}</span><span>{next.data.year}</span></span>
-            </span>
-            <span class="year" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-    )}
+    {next && <section class="case-next"><div class="wrap"><p class="eyebrow">{t.casePage.next}</p><a class="case-next-link" href={href(`/work/${next.data.slug}`, lang)}><span class="case-next-image"><Artwork slug={next.data.slug} cover={next.data.cover ?? ''} alt={next.data.title} /></span><span class="case-next-text"><span class="case-next-client">{next.data.client} / {next.data.year || '—'}</span><span class="case-next-title">{next.data.title}</span></span><span class="case-next-arrow" aria-hidden="true"><Arrow /></span></a></div></section>}
   </article>
 </Base>

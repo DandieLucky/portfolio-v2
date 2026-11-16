@@ -1,64 +1,18 @@
 ---
-import { ui, href, otherLangPath, langLabel, type Lang } from '../i18n/ui';
-
-interface Props {
-  lang: Lang;
-}
-
+import Icon from './Icon.astro';
+import { ui, href, otherLangPath, type Lang } from '../i18n/ui';
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
-const t = ui[lang];
-const pathname = Astro.url.pathname;
-// Halaman 404 tidak mempunyai pasangan /en/404; arahkan pilihan bahasa ke beranda.
-const languagePath = /\/404(?:\.html)?\/?$/.test(pathname) ? '/' : pathname;
-const other: Lang = lang === 'id' ? 'en' : 'id';
-
-const links = [
-  { path: '/work', label: t.nav.work },
-  { path: '/fotografi', label: t.nav.gallery },
-  { path: '/about', label: t.nav.about },
-  { path: '/lab', label: t.nav.lab },
-  { path: '/contact', label: t.nav.contact },
-];
-
-const normalized = pathname.replace(/\/$/, '') || '/';
-const isActive = (p: string) => {
-  const target = href(p, lang);
-  return normalized === target || normalized.startsWith(`${target}/`);
-};
+const t=ui[lang];
+const pathname=Astro.url.pathname;
+const languagePath=/\/404(?:\.html)?\/?$/.test(pathname)?'/':pathname;
+const links=[{path:'/work', label:t.nav.work},{path:'/fotografi',label:t.nav.gallery},{path:'/about',label:t.nav.about},{path:'/lab',label:t.nav.lab},{path:'/contact',label:t.nav.contact}];
+const normalized=pathname.replace(/\/$/,'')||'/';
 ---
-
 <header class="site-header" data-header>
   <div class="wrap header-inner">
-    <a class="brand" href={href('/', lang)} aria-label={`Dandie Lucky Maulana — ${lang === 'id' ? 'beranda' : 'home'}`}>
-      <span class="brand-name brand-name--full">Dandie Lucky Maulana</span>
-      <span class="brand-name brand-name--short" aria-hidden="true">Dandie<span class="brand-dot">.</span></span>
-      <span class="brand-label">Portfolio</span>
-    </a>
-
-    <nav class="nav" id="site-nav" data-nav aria-label={lang === 'id' ? 'Navigasi utama' : 'Main navigation'}>
-      {links.map((l) => (
-        <a href={href(l.path, lang)} aria-current={isActive(l.path) ? 'page' : undefined}>{l.label}</a>
-      ))}
-    </nav>
-
-    <div class="header-controls">
-      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label={t.ui.theme} title={t.ui.theme}>
-        <span class="i-moon" aria-hidden="true">☾</span>
-        <span class="i-sun" aria-hidden="true">☀</span>
-      </button>
-
-      <div class="lang" role="group" aria-label={t.ui.langSwitch}>
-        <a href={href(languagePath.replace(/^\/en(?=\/|$)/, '') || '/', 'id')} aria-current={lang === 'id' ? 'true' : 'false'} hreflang="id">
-          {langLabel.id}
-        </a>
-        <a href={otherLangPath(languagePath, 'en')} aria-current={lang === 'en' ? 'true' : 'false'} hreflang="en">
-          {langLabel.en}
-        </a>
-      </div>
-
-      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">
-        {t.nav.menu}
-      </button>
-    </div>
+    <a class="brand" href={href('/',lang)} aria-label={`Dandie Lucky Maulana — ${lang==='id'?'beranda':'home'}`}><span class="brand-mark" aria-hidden="true">d<span><Icon kind="spark" /></span></span><span class="brand-wordmark">DANDIE LUCKY<br />MAULANA<span class="brand-role">DESIGN & VISUAL THINGS</span></span></a>
+    <nav class="nav" id="site-nav" data-nav aria-label={lang==='id'?'Navigasi utama':'Main navigation'}>{links.map(l=><a href={href(l.path,lang)} aria-current={normalized===href(l.path,lang)||normalized.startsWith(`${href(l.path,lang)}/`)?'page':undefined}>{l.label}<span aria-hidden="true"><Icon /></span></a>)}</nav>
+    <div class="header-controls"><div class="lang" role="group" aria-label={t.ui.langSwitch}><a href={otherLangPath(languagePath,'id')} aria-current={lang==='id'?'true':'false'} hreflang="id">ID</a><span aria-hidden="true">/</span><a href={otherLangPath(languagePath,'en')} aria-current={lang==='en'?'true':'false'} hreflang="en">EN</a></div><button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">{t.nav.menu}<span aria-hidden="true">☰</span></button></div>
   </div>
 </header>

@@ -1,149 +1,59 @@
 ---
+import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import Artwork from '../components/Artwork.astro';
-import Arrow from '../components/Arrow.astro';
-import Slot from '../components/Slot.astro';
 import { ui, href, site, type Lang } from '../i18n/ui';
-import { getFeatured, getWork } from '../lib/work';
+import { getWork } from '../lib/work';
 import { disciplineLabel } from '../data/disciplines';
-
-interface Props {
-  lang: Lang;
-}
-
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = ui[lang];
-const featured = await getFeatured(lang, 6);
-const projects = await getWork(lang);
-const highlights = ['olimpiade-polimedia-2025', 'darya-varia', 'wilhelmina-cup-2024']
-  .map((slug) => projects.find((p) => p.data.slug === slug))
-  .filter((p): p is NonNullable<typeof p> => Boolean(p));
-
-const heroParts = t.home.heroLines.map((line) =>
-  line.split('*').map((part, i) => ({ text: part, em: i % 2 === 1 }))
-);
-
+const id = lang === 'id';
+const all = await getWork(lang);
+const order = ['olimpiade-polimedia-2025', 'pkkmb-polimedia-2026', 'posh-by-her', 'darya-varia', 'matahari-grosir', 'wilhelmina-cup-2024'];
+const selected = order.flatMap(slug => all.filter(p => p.data.slug === slug));
+const services = id ? ['Desain grafis', 'Konten sosial', 'Video & motion', 'Fotografi', 'UI/UX'] : ['Graphic design', 'Social content', 'Video & motion', 'Photography', 'UI/UX'];
 ---
-
 <Base lang={lang} title={t.home.title} description={t.home.description}>
-  <section class="hero hero--portfolio">
+  <section class="creative-hero">
     <div class="wrap">
-      <div class="hero-grid">
-        <div class="hero-intro">
-          <p class="hero-eyebrow">{lang === 'id' ? 'Desain grafis · Konten sosial' : 'Graphic design · Social content'}</p>
-          <h1 class="hero-title">
-            {heroParts.map((parts) => (
-              <span class="hero-line">
-                <span>
-                  {parts.map((p) => (p.em ? <em>{p.text}</em> : p.text))}
-                  <wbr />
-                </span>
-              </span>
-            ))}
-          </h1>
-          <p class="lede">{t.home.heroLede}</p>
-          <div class="cta-actions hero-actions">
-            <a class="btn btn--accent" href="#work">{lang === 'id' ? 'Lihat karya' : 'Explore work'} <Arrow /></a>
-            <a class="link" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a>
-          </div>
-          <p class="availability"><span class="dot" aria-hidden="true"></span>{t.ui.available}</p>
+      <div class="hero-topline"><span>DANDIE LUCKY MAULANA / VISUAL CREATIVE</span><span>JAKARTA, ID <Icon /></span></div>
+      <div class="creative-hero-grid">
+        <div class="creative-hero-copy">
+          <p class="hero-greeting"><span class="mini-star" aria-hidden="true"><Icon kind="spark" /></span> {id ? 'Ide boleh liar. Eksekusi tetap rapi.' : 'Wild ideas. Thoughtful execution.'}</p>
+          <h1>{id ? 'IDE BAGUS.' : 'GOOD IDEAS.'}<br /><span class="cobalt-type">{id ? 'VISUAL' : 'BOLD'}</span><br /><span class="hero-last">{id ? 'BERANI.' : 'VISUALS.'}<span class="title-spark" aria-hidden="true"><Icon kind="spark" /></span></span></h1>
+          <p class="hero-intro">{id ? 'Halo, saya Dandie. Saya mengolah ide jadi desain, konten, motion, dan foto yang punya karakter.' : 'Hi, I’m Dandie. I turn ideas into design, content, motion, and photography with character.'}</p>
+          <div class="hero-actions"><a class="btn btn--ink" href="#work">{id ? 'Jelajahi karya' : 'Explore my work'} <span aria-hidden="true"><span class="arrow-down-right"><Icon /></span></span></a><a class="text-download" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a></div>
         </div>
-
-        <div class="hero-showcase" aria-label={lang === 'id' ? 'Pratinjau karya pilihan' : 'Featured project previews'}>
-          {highlights.map((p, i) => (
-            <a class:list={['showcase-item', i === 0 && 'showcase-item--main']} href={href(`/work/${p.data.slug}`, lang)} aria-label={p.data.title}>
-              <div class="showcase-media">
-                <Artwork slug={p.data.slug} cover={p.data.cover ?? ''} alt={p.data.title} priority={i === 0} />
-                <span class="showcase-arrow" aria-hidden="true"><Arrow /></span>
-              </div>
-              <div class="showcase-caption">
-                <span>{i === 0 ? 'Olimpiade Polimedia' : p.data.client}</span>
-                <span>{disciplineLabel(p.data.disciplines[0], lang)}</span>
-              </div>
-            </a>
-          ))}
+        <div class="hero-artboard" aria-label={id ? 'Pilihan karya desain dan fotografi Dandie' : 'A selection of Dandie’s design and photography'}>
+          <div class="artboard-grid" aria-hidden="true"></div><span class="artboard-coordinate" aria-hidden="true">CREATIVE IN PROGRESS</span>
+          <a class="art-print art-print--main" href={href('/work/olimpiade-polimedia-2025', lang)} aria-label={id ? 'Lihat proyek Olimpiade Polimedia' : 'Explore Polimedia Olympiad'}><img src="/assets/work/olimpiade-polimedia-2025/poster-04.jpg" alt="Desain konten Olimpiade Polimedia 2025" width="900" height="1600" fetchpriority="high" /><span>01 / GRAPHIC DESIGN <span><Icon /></span></span></a>
+          <a class="art-print art-print--photo" href={href('/work/posh-by-her', lang)} aria-label={id ? 'Lihat fotografi Posh by Her' : 'Explore Posh by Her photography'}><img src="/assets/work/posh-by-her/foto-01.jpg" alt="Fotografi acara Posh by Her" width="1067" height="1600" /><span>02 / PHOTOGRAPHY <span><Icon /></span></span></a>
+          <span class="art-sticker" aria-hidden="true">MAKE<br />IT<br /><b>POP.</b></span><span class="artboard-bottom" aria-hidden="true">IDEA → VISUAL → IMPACT <span><Icon kind="spark" /></span></span>
         </div>
       </div>
-
-      <div class="hero-footer">
-        <p>{lang === 'id' ? 'Jakarta Selatan · Desain, motion & fotografi' : 'South Jakarta · Design, motion & photography'}</p>
-        <a class="link link--icon" href={href('/work', lang)}>{t.ui.seeAll} <Arrow /></a>
-      </div>
+      <div class="hero-bottomline"><span class="availability"><i></i>{t.ui.available}</span><a href="#work">{id ? 'Ada banyak cerita di bawah' : 'More stories below'} <span aria-hidden="true">↓</span></a></div>
     </div>
   </section>
-
-  <section class="section selected-work" id="work">
+  <div class="discipline-strip" aria-label={id ? 'Bidang kreatif' : 'Creative disciplines'}><div>{services.map(s => <span>{s}<b aria-hidden="true"><Icon kind="spark" /></b></span>)}</div></div>
+  <section class="section home-work" id="work">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-reveal>{t.home.workEyebrow} / {String(featured.length).padStart(2, '0')}</p>
-        <h2 data-reveal style="--i:1">{t.home.workTitle}</h2>
-        <p class="lede" data-reveal style="--i:2">{t.home.workLede}</p>
-      </div>
-
-      <div class="card-grid selected-grid">
-        {featured.map((p, i) => (
-          <ProjectCard
-            title={p.data.title}
-            meta={p.data.disciplines.slice(0, 2).map((d) => disciplineLabel(d, lang))}
-            role={p.data.role}
-            href={href(`/work/${p.data.slug}`, lang)}
-            cover={p.data.cover ?? ''}
-            slug={p.data.slug}
-            tags={p.data.disciplines}
-            status={p.data.status}
-            index={i}
-          />
-        ))}
-      </div>
-
-      <p style="margin-top:2rem" data-reveal>
-        <a class="link link--icon" href={href('/work', lang)}>
-          {t.ui.seeAll} <Arrow />
-        </a>
-      </p>
+      <div class="section-kicker"><p class="eyebrow">01 / {t.home.workEyebrow}</p><span class="edition-label">2024—2026</span></div>
+      <div class="work-heading"><h2>{id ? 'KARYA YANG' : 'WORK THAT'}<br /><span>{id ? 'PUNYA SUARA.' : 'SPEAKS UP.'}</span></h2><p>{id ? 'Dari poster kampus sampai konten brand. Ini cara saya menerjemahkan brief menjadi sesuatu yang bisa dilihat, dirasakan, dan diingat.' : 'From campus posters to brand content. A look at how I turn a brief into something you can see, feel, and remember.'}</p></div>
+      <div class="home-project-grid">{selected.map((p, i) => <ProjectCard title={p.data.title} meta={p.data.disciplines.map(d => disciplineLabel(d, lang))} role={p.data.role} href={href(`/work/${p.data.slug}`, lang)} cover={p.data.cover ?? ''} slug={p.data.slug} tags={p.data.disciplines} status={p.data.status} index={i} />)}</div>
+      <div class="all-work-bar"><p>{id ? 'Masih ada cerita lainnya.' : 'There’s more to explore.'}</p><a class="btn" href={href('/work', lang)}>{t.ui.seeAll} <span aria-hidden="true"><Icon /></span></a></div>
     </div>
   </section>
-
-  <section class="section" style="padding-top:0">
+  <section class="creative-toolbox section">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-reveal>{t.home.approachEyebrow}</p>
-        <h2 data-reveal style="--i:1">{t.home.approachTitle}</h2>
-      </div>
-
-      <div class="steps">
-        {t.home.approachSteps.map((s, i) => (
-          <article class="step" data-reveal style={`--i:${i}`}>
-            <span class="step-n">{s.n}</span>
-            <h3>{s.title}</h3>
-            <p>{s.body}</p>
-          </article>
-        ))}
-      </div>
+      <div class="section-kicker"><p class="eyebrow">02 / {id ? 'BANYAK MEDIUM, SATU CARA BERPIKIR' : 'MANY MEDIUMS, ONE MINDSET'}</p><span class="large-asterisk" aria-hidden="true"><Icon kind="spark" /></span></div>
+      <div class="toolbox-layout"><div><h2>{id ? 'SATU IDE.' : 'ONE IDEA.'}<br />{id ? 'BANYAK' : 'MANY'}<br /><span>{id ? 'KEMUNGKINAN.' : 'POSSIBILITIES.'}</span></h2><p>{id ? 'Saya suka berpindah medium. Yang tetap sama: memahami konteks, menemukan karakter visual, lalu mengerjakannya sampai selesai.' : 'I like moving between mediums. What stays the same: understanding the context, finding a visual character, and seeing it through.'}</p></div><div class="discipline-list">{services.map((s,i) => <a href={href(i === 3 ? '/fotografi' : '/work', lang)}><span class="discipline-n">0{i+1}</span><span>{s}</span><span aria-hidden="true"><Icon /></span></a>)}</div></div>
     </div>
   </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="about-grid">
-        <div data-reveal>
-          <Slot src="/assets/about/portrait.jpg" alt="Foto Dandie Lucky Maulana" ratio="4 / 5" />
-        </div>
-
-        <div>
-          <p class="eyebrow" data-reveal>{t.home.aboutEyebrow}</p>
-          <h2 data-reveal style="--i:1;margin-top:0.75rem">{t.home.aboutTitle}</h2>
-          {t.home.aboutBody.map((p, i) => (
-            <p class="lede" style={`max-width:58ch;margin-top:1rem;--i:${i + 2}`} data-reveal>{p}</p>
-          ))}
-          <p style="margin-top:1.5rem" data-reveal>
-            <a class="link link--icon" href={href('/about', lang)}>
-              {t.nav.about} <Arrow />
-            </a>
-          </p>
-        </div>
-      </div>
+  <section class="section creative-about">
+    <div class="wrap creative-about-grid">
+      <div class="portrait-composition" data-reveal><div class="portrait-mat"><img src="/assets/about/portrait.jpg" alt="Dandie Lucky Maulana" width="1200" height="1500" loading="lazy" /></div><span class="portrait-note">{id ? 'ORANG DI BALIK KARYA' : 'THE HUMAN BEHIND THE WORK'} <span aria-hidden="true"><Icon /></span></span><span class="portrait-star" aria-hidden="true"><Icon kind="spark" /></span></div>
+      <div class="creative-about-copy" data-reveal><p class="eyebrow">03 / {id ? 'SEDIKIT TENTANG SAYA' : 'A LITTLE ABOUT ME'}</p><h2>{id ? 'SERIUS BERKARYA.' : 'SERIOUS ABOUT WORK.'}<br /><span>{id ? 'TETAP EKSPLORASI.' : 'ALWAYS EXPLORING.'}</span></h2><p class="lede">{id ? 'Saya Dandie, desainer grafis dan kreator visual dari Jakarta Selatan. Saat ini kuliah D4 Teknologi Rekayasa Multimedia di Polimedia.' : 'I’m Dandie, a graphic designer and visual creative based in South Jakarta, studying Applied Multimedia Engineering at Polimedia.'}</p><p>{id ? 'Sejak 2025, saya mengerjakan konten media sosial, desain acara, motion graphics, dan fotografi. Saya senang mencoba medium baru, tanpa melupakan detail kecil yang membuat hasilnya terasa utuh.' : 'Since 2025, I’ve worked on social content, event design, motion graphics, and photography. I enjoy trying new mediums while keeping an eye on the details that hold the work together.'}</p><a class="btn btn--ink" href={href('/about', lang)}>{id ? 'Kenalan lebih jauh' : 'More about me'} <span aria-hidden="true"><Icon /></span></a></div>
     </div>
   </section>
 </Base>

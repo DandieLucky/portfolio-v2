@@ -58,7 +58,18 @@ function initMenu() {
   toggle.addEventListener('click', () => {
     const open = nav.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(open));
+    if(open) nav.querySelector('a')?.focus();
   });
+
+  const onKey = (e) => {
+    if(e.key === 'Escape' && nav.classList.contains('is-open')) {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    }
+  };
+  document.addEventListener('keydown', onKey);
+  cleanups.push(() => document.removeEventListener('keydown', onKey));
 
   nav.querySelectorAll('a').forEach((a) =>
     a.addEventListener('click', () => {
@@ -72,6 +83,7 @@ function initMenu() {
 function initReveal() {
   const items = Array.from(document.querySelectorAll('[data-reveal]'));
   if (!items.length) return;
+  document.documentElement.classList.add('reveal-enabled');
 
   if (reduceMotion() || !('IntersectionObserver' in window)) {
     items.forEach((el) => el.classList.add('is-in'));
@@ -191,7 +203,7 @@ function initFilters() {
       });
 
       if (empty) empty.hidden = visible > 0;
-      void i;
+
     });
   });
 }
@@ -234,7 +246,9 @@ function initLightbox() {
   });
 
   const onKey = (e) => {
-    if (e.key === 'Escape' && box.classList.contains('is-open')) shut();
+    if (!box.classList.contains('is-open')) return;
+    if (e.key === 'Escape') shut();
+    if (e.key === 'Tab') { e.preventDefault(); close?.focus(); }
   };
   document.addEventListener('keydown', onKey);
   cleanups.push(() => document.removeEventListener('keydown', onKey));
@@ -353,65 +367,6 @@ function initCardVideos() {
   });
 }
 
-/* ---------- tema gelap / terang ---------- */
-// Astro menyalin atribut <html> dari dokumen baru saat pindah halaman, jadi
-// data-theme bisa hilang. localStorage adalah sumber kebenaran: pasang ulang
-// atributnya sebelum & sesudah swap, bukan hanya saat init.
-const storedTheme = () => {
-  try {
-    return localStorage.getItem('theme');
-  } catch (e) {
-    return null;
-  }
-};
-
-function applyStoredTheme() {
-  const root = document.documentElement;
-  if (storedTheme() === 'dark') root.dataset.theme = 'dark';
-  else delete root.dataset.theme;
-}
-
-if (!window.__themeBound) {
-  window.__themeBound = true;
-  document.addEventListener('astro:before-swap', applyStoredTheme);
-  document.addEventListener('astro:after-swap', applyStoredTheme);
-}
-
-function initTheme() {
-  const btn = document.querySelector('[data-theme-toggle]');
-  if (!btn) return;
-
-  applyStoredTheme();
-
-  const root = document.documentElement;
-  const meta = document.querySelector('meta[name="theme-color"]');
-  const isDark = () => root.dataset.theme === 'dark';
-
-  const paint = () => {
-    btn.setAttribute('aria-pressed', String(isDark()));
-    if (meta) meta.setAttribute('content', isDark() ? '#0e1116' : '#f8f6f1');
-  };
-
-  const onClick = () => {
-    if (isDark()) {
-      delete root.dataset.theme;
-      try {
-        localStorage.setItem('theme', 'light');
-      } catch (e) {}
-    } else {
-      root.dataset.theme = 'dark';
-      try {
-        localStorage.setItem('theme', 'dark');
-      } catch (e) {}
-    }
-    paint();
-  };
-
-  btn.addEventListener('click', onClick);
-  cleanups.push(() => btn.removeEventListener('click', onClick));
-  paint();
-}
-
 /* ---------- run ---------- */
 function initAll() {
   while (cleanups.length) {
@@ -422,6 +377,7 @@ function initAll() {
       /* noop */
     }
   }
+  document.body.style.overflow = '';
   initHeader();
   initMenu();
   initReveal();
@@ -432,7 +388,6 @@ function initAll() {
   initCopy();
   initToc();
   initCardVideos();
-  initTheme();
 
   // keep the copied-toast message localised
   const toast = document.querySelector('[data-toast]');

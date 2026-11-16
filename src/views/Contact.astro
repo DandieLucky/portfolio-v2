@@ -1,50 +1,42 @@
 ---
 import Base from '../layouts/Base.astro';
 import { ui, site, type Lang } from '../i18n/ui';
-
-interface Props {
-  lang: Lang;
-}
-
+import '../styles/secondary.css';
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = ui[lang];
-
+const id = lang === 'id';
 const rows = [
-  { label: t.contact.email, value: site.email, url: `mailto:${site.email}`, copy: site.email },
-  { label: t.contact.whatsapp, value: site.phone, url: site.whatsapp, copy: site.phone },
-  { label: t.contact.linkedin, value: 'dandie-lucky-maulana', url: site.linkedin, copy: site.linkedin },
-  ...(site.instagram
-    ? [{ label: t.contact.instagram, value: site.instagram.split('/').pop() ?? '', url: site.instagram, copy: site.instagram }]
-    : []),
+  { label: 'WhatsApp', value: site.phone, url: site.whatsapp, detail: id ? 'Mulai obrolan' : 'Start a conversation' },
+  { label: 'LinkedIn', value: 'Dandie Lucky Maulana', url: site.linkedin, detail: id ? 'Terhubung secara profesional' : 'Let’s connect' },
+  ...(site.instagram ? [{ label: 'Instagram', value: site.instagram.split('/').filter(Boolean).pop() ?? '', url: site.instagram, detail: id ? 'Lihat keseharian kreatif' : 'More creative moments' }] : []),
 ];
 ---
 
 <Base lang={lang} title={t.contact.title} description={t.contact.description} noCta>
-  <section class="section" style="padding-top:calc(var(--header-h) + clamp(2.5rem,7vw,6rem))">
+  <section class="page-opening v2-contact-opening">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-reveal>{t.contact.eyebrow}</p>
-        <h1 data-reveal style="--i:1;max-width:20ch">{t.contact.headline}</h1>
-        <p class="lede" data-reveal style="--i:2">{t.contact.body}</p>
+      <div class="v2-page-kicker"><p class="eyebrow">{t.nav.contact} / {id ? 'Mulai sesuatu' : 'Start something'}</p><span>JAKARTA, INDONESIA ↗</span></div>
+      <div class="v2-contact-head">
+        <h1 class="v2-page-title" data-reveal>{id ? 'Punya ide?' : 'Got an idea?'}<br /><span>{id ? 'Ayo bikin.' : 'Let’s make it.'}</span></h1>
+        <svg class="v2-contact-flower" width="200" height="200" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round" aria-hidden="true"><path d="M50 9v82M9 50h82M21 21l58 58M79 21 21 79" /></svg>
       </div>
+      <div class="v2-contact-intro"><p class="lede">{t.contact.body}</p><p class="v2-contact-availability"><span aria-hidden="true"></span>{id ? 'Magang · Januari 2027' : 'Internship · January 2027'}</p></div>
+      <div class="v2-email-block" data-reveal>
+        <p class="eyebrow">{id ? 'Kirim brief, sapa dulu, atau langsung ajak kerja.' : 'Send a brief, say hello, or start a collaboration.'}</p>
+        <a class="v2-email" href={`mailto:${site.email}`}>{site.email}<span aria-hidden="true">↗</span></a>
+        <button class="btn btn--ghost" type="button" data-copy={site.email}>{t.ui.copyEmail} <span aria-hidden="true">⧉</span></button>
+      </div>
+    </div>
+  </section>
 
-      <div class="timeline" style="margin-top:0">
-        {rows.map((r, i) => (
-          <div class="timeline-item" data-reveal style={`--i:${i}`}>
-            <span class="t-year">{r.label}</span>
-            <span style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:baseline;justify-content:space-between">
-              <a class="link" href={r.url} target={r.url.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
-                {r.value}
-              </a>
-              <button class="filter" type="button" data-copy={r.copy}>{t.ui.copyEmail}</button>
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div class="cta-actions" data-reveal>
-        <a class="btn" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a>
-      </div>
+  <section class="section v2-contact-channels">
+    <div class="wrap">
+      <p class="eyebrow">{id ? 'Atau temui saya di sini' : 'Or find me here'}</p>
+      <div class="v2-channel-list">{rows.map((row, i) => (
+        <a class="v2-channel" href={row.url} target="_blank" rel="noopener noreferrer" data-reveal><span class="v2-list-number">0{i + 1}</span><div><h2>{row.label}</h2><p>{row.value}</p></div><span class="v2-channel-detail">{row.detail}</span><span class="v2-channel-arrow" aria-hidden="true">↗</span></a>
+      ))}</div>
+      <div class="v2-contact-cv"><div><h2>{id ? 'Kenali pengalaman saya.' : 'Get to know my work.'}</h2><p>{id ? 'Latar belakang, pengalaman, dan keahlian dalam satu PDF.' : 'Background, experience, and skills in one PDF.'}</p></div><a class="btn" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a></div>
     </div>
   </section>
 </Base>

@@ -2,43 +2,30 @@
 import Base from '../layouts/Base.astro';
 import Gallery from '../components/Gallery.astro';
 import { ui, href, type Lang } from '../i18n/ui';
-
-interface Props {
-  lang: Lang;
-}
-
+import '../styles/secondary.css';
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
+const id = lang === 'id';
 const t = ui[lang].photos;
-
-/** Arsip foto lepas — berkasnya hasil impor scripts/import-assets.mjs
- *  dari folder Assets/Foto lain-lain. */
-const photos = Array.from({ length: 11 }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
-  return {
-    src: `/assets/gallery/foto-${n}.jpg`,
-    alt: lang === 'id' ? `Foto arsip ${i + 1}` : `Archive photograph ${i + 1}`,
-  };
-});
+const photos = Array.from({ length: 11 }, (_, i) => ({
+  src: `/assets/gallery/foto-${String(i + 1).padStart(2, '0')}.jpg`,
+  alt: id ? `Foto arsip Dandie Lucky Maulana ${i + 1}` : `Dandie Lucky Maulana archive photograph ${i + 1}`,
+  caption: `${String(i + 1).padStart(2, '0')} / ${id ? 'Catatan visual' : 'Visual notes'}`,
+}));
 ---
 
 <Base lang={lang} title={t.title} description={t.description}>
-  <section class="section" style="padding-top:calc(var(--header-h) + clamp(2.5rem,7vw,6rem))">
+  <section class="page-opening v2-photo-opening">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-reveal>{t.eyebrow} — {String(photos.length).padStart(2, '0')}</p>
-        <h1 data-reveal style="--i:1">{t.headline}</h1>
-        <p class="lede" data-reveal style="--i:2">{t.lede}</p>
-      </div>
-
-      <Gallery items={photos} natural />
-
-      <p class="muted mono" data-reveal style="margin-top:var(--s4)">{t.note}</p>
-
-      <p style="margin-top:var(--s7)" data-reveal>
-        <a class="link-arrow" href={href('/work', lang)}>
-          {lang === 'id' ? 'Lihat karya berbasis proyek' : 'See project-based work'} →
-        </a>
-      </p>
+      <div class="v2-page-kicker"><p class="eyebrow">{id ? 'Fotografi / Arsip pribadi' : 'Photography / Personal archive'}</p><span>11 {id ? 'BINGKAI' : 'FRAMES'} ↘</span></div>
+      <h1 class="v2-page-title" data-reveal>{id ? 'Melihat.' : 'Observe.'}<br /><span class="v2-cobalt">{id ? 'Merekam.' : 'Capture.'}</span></h1>
+      <div class="v2-photo-intro"><p class="lede">{t.lede}</p><p class="v2-photo-note"><span aria-hidden="true">↗</span>{t.note}</p></div>
+    </div>
+  </section>
+  <section class="v2-photo-archive">
+    <div class="wrap">
+      <div class="v2-photo-gallery"><Gallery items={photos} natural /></div>
+      <div class="v2-photo-end"><span class="v2-end-mark" aria-hidden="true">◎</span><p>{id ? 'Setiap bingkai, cara lain untuk melihat.' : 'Every frame, another way of seeing.'}</p><a class="btn btn--ghost" href={href('/work', lang)}>{id ? 'Lihat karya berbasis proyek' : 'Explore project work'} <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
 </Base>

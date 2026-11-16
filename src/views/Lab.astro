@@ -2,44 +2,31 @@
 import Base from '../layouts/Base.astro';
 import { ui, type Lang } from '../i18n/ui';
 import { lab } from '../data/lab';
-
-interface Props {
-  lang: Lang;
-}
-
+import '../styles/secondary.css';
+interface Props { lang: Lang; }
 const { lang } = Astro.props;
+const id = lang === 'id';
 const t = ui[lang];
 ---
 
 <Base lang={lang} title={t.lab.title} description={t.lab.description}>
-  <section class="section" style="padding-top:calc(var(--header-h) + clamp(2.5rem,7vw,6rem))">
+  <section class="page-opening v2-lab-opening">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow" data-reveal>{t.lab.eyebrow}</p>
-        <h1 data-reveal style="--i:1;max-width:22ch">{t.lab.lede}</h1>
-      </div>
-
-      <div class="lab-grid">
-        {lab.map((item, i) => (
-          <article class="lab-card" data-reveal style={`--i:${i}`}>
-            <div>
-              <span class="mono muted">{item.n}</span>
-              <h3 style="margin-top:0.5rem">{item.title[lang]}</h3>
-              <p style="margin-top:0.75rem">
-                <span class="tag">{t.lab.status}: {item.status[lang]}</span>
-              </p>
-            </div>
-
-            <div>
-              <p style="color:var(--ink-2)">{item.body[lang]}</p>
-              <p class="mono muted" style="margin-top:1rem">{t.lab.stack}</p>
-              <div class="tags" style="margin-top:0.5rem">
-                {item.stack.map((s) => <span class="tag">{s}</span>)}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+      <div class="v2-page-kicker"><p class="eyebrow">{id ? 'Lab / Di luar brief' : 'Lab / Beyond the brief'}</p><span>{id ? 'RASA INGIN TAHU, DIUJI.' : 'CURIOSITY, IN PRACTICE.'} ↙</span></div>
+      <div class="v2-lab-head"><h1 class="v2-page-title" data-reveal>{id ? 'Kalau dicoba,' : 'What if'}<br /><span>{id ? 'gimana?' : 'we tried?'}</span></h1><div class="v2-lab-art" aria-hidden="true"><span>↗</span><span>✳</span><span>?</span></div></div>
+      <p class="lede v2-lab-lede">{t.lab.lede}</p>
+    </div>
+  </section>
+  <section class="section v2-lab-experiments">
+    <div class="wrap">
+      <div class="v2-experiment-list">{lab.map((item, i) => (
+        <article class="v2-experiment" data-reveal>
+          <div class="v2-experiment-index"><span>{item.n}</span><span class="v2-experiment-status">{item.status[lang]}</span></div>
+          <div class="v2-experiment-copy"><h2>{item.title[lang]}</h2><p>{item.body[lang]}</p><p class="v2-stack-label">{t.lab.stack}</p><ul class="v2-stack">{item.stack.map((s) => <li>{s}</li>)}</ul>{item.href && <a class="link" href={item.href} target="_blank" rel="noopener noreferrer">{id ? 'Buka eksperimen' : 'Open experiment'} ↗</a>}</div>
+          <span class="v2-experiment-symbol" aria-hidden="true">{['⌘', '↧', '✳'][i]}</span>
+        </article>
+      ))}</div>
+      <p class="v2-lab-footnote">{id ? 'Ide berikutnya masih di meja kerja.' : 'The next idea is still on the workbench.'} <span aria-hidden="true">✦</span></p>
     </div>
   </section>
 </Base>

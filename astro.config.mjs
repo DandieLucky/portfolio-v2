@@ -1,10 +1,11 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 
-// Ganti `site` dengan domain sendiri setelah dibeli (mis. https://dandielucky.com)
-// Untuk sementara situs terbit di GitHub Pages: https://dandielucky.github.io
+// Dev memakai URL root. scripts/apply-site-base.mjs menambahkan SITE_BASE
+// sesudah build, termasuk untuk URL aset di MDX yang dipertahankan utuh.
 export default defineConfig({
   site: 'https://dandielucky.github.io',
+  devToolbar: { enabled: false },
   integrations: [mdx()],
   build: { inlineStylesheets: 'auto' },
   vite: {

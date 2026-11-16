@@ -154,7 +154,7 @@ export const ui: Record<Lang, Copy> = {
       aboutEyebrow: 'Tentang',
       aboutTitle: 'Desainer yang juga bisa membangun alatnya sendiri.',
       aboutBody: [
-        'Saya mahasiswa semester 6 D4 Teknologi Rekayasa Multimedia di Politeknik Negeri Media Kreatif Jakarta. Sejak Mei 2025 saya memegang seluruh konten media sosial sebuah bisnis grosir snack — dari brief, desain, caption, sampai jadwal tayang.',
+        'Saya mahasiswa semester 5 D4 Teknologi Rekayasa Multimedia di Politeknik Negeri Media Kreatif Jakarta. Sejak Mei 2025 saya memegang seluruh konten media sosial sebuah bisnis grosir snack — dari brief, desain, caption, sampai jadwal tayang.',
         'Di sisi lain saya mengerjakan motion graphics, fotografi produk, dan merancang antarmuka aplikasi internal untuk instansi. Kombinasi ini membuat saya terbiasa bekerja dengan orang non-desainer: mendengar kebutuhan, menerjemahkannya jadi brief, lalu mengeksekusi.',
       ],
       ctaEyebrow: 'Kontak',
@@ -184,7 +184,7 @@ export const ui: Record<Lang, Copy> = {
       eyebrow: 'Tentang',
       headline: 'Desainer grafis dan spesialis konten media sosial di Jakarta.',
       paragraphs: [
-        'Saya Dandie Lucky Maulana, mahasiswa semester 6 D4 Teknologi Rekayasa Multimedia, Politeknik Negeri Media Kreatif (Polimedia) Jakarta, dengan IPK 3.86/4.00.',
+        'Saya Dandie Lucky Maulana, mahasiswa semester 5 D4 Teknologi Rekayasa Multimedia, Politeknik Negeri Media Kreatif (Polimedia) Jakarta, dengan IPK 3.86/4.00.',
         'Ketertarikan saya bukan hanya membuat gambar yang bagus, tapi membuat visual yang bekerja: konten yang menjaga konsistensi brand, poster yang informasinya terbaca, antarmuka yang tidak membuat orang berpikir dua kali.',
         'Saya terbiasa memegang satu proyek dari awal sampai tayang — mulai dari menerima brief, menentukan arah visual, memproduksi aset, sampai mengevaluasi hasil. Untuk mempercepat kerja, saya memakai AI agent sebagai alat bantu riset dan drafting, bukan sebagai pengganti keputusan desain.',
       ],
@@ -285,7 +285,7 @@ export const ui: Record<Lang, Copy> = {
       aboutEyebrow: 'About',
       aboutTitle: 'A designer who can also build the tools.',
       aboutBody: [
-        'I am a sixth-semester Applied Multimedia Engineering student at Politeknik Negeri Media Kreatif Jakarta. Since May 2025 I have owned the entire social media content of a snack wholesale business — from brief, design and captions to the publishing schedule.',
+        'I am a fifth-semester Applied Multimedia Engineering student at Politeknik Negeri Media Kreatif Jakarta. Since May 2025 I have owned the entire social media content of a snack wholesale business — from brief, design and captions to the publishing schedule.',
         'On the other side I have produced motion graphics, product photography, and designed the interface of an internal application for a government institution. That mix means I am used to working with non-designers: listening to a need, turning it into a brief, then executing.',
       ],
       ctaEyebrow: 'Contact',
@@ -315,7 +315,7 @@ export const ui: Record<Lang, Copy> = {
       eyebrow: 'About',
       headline: 'Graphic designer and social media content specialist in Jakarta.',
       paragraphs: [
-        'I am Dandie Lucky Maulana, a sixth-semester Applied Multimedia Engineering student at Politeknik Negeri Media Kreatif (Polimedia) Jakarta, GPA 3.86/4.00.',
+        'I am Dandie Lucky Maulana, a fifth-semester Applied Multimedia Engineering student at Politeknik Negeri Media Kreatif (Polimedia) Jakarta, GPA 3.86/4.00.',
         'My interest is not only in making good-looking images, but in making visuals that work: content that keeps a brand consistent, posters whose information reads clearly, interfaces that do not make people think twice.',
         'I am used to owning a project from beginning to publish — taking the brief, setting the visual direction, producing the assets, then reviewing the result. To work faster I use an AI agent as a research and drafting assistant, never as a replacement for design decisions.',
       ],

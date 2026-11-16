@@ -1,4 +1,4 @@
-name: Deploy portfolio
+name: Deploy portfolio v2
 
 # Setiap push ke main → build ulang → terbit otomatis.
 # Bisa juga dijalankan manual dari tab Actions (Run workflow).
@@ -19,6 +19,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.repository == 'DandieLucky/portfolio-v2'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,6 +35,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          SITE_BASE: /portfolio-v2
+          ASTRO_TELEMETRY_DISABLED: '1'
         run: npm run build
 
       - uses: actions/configure-pages@v5

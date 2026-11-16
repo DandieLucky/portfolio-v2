@@ -12,12 +12,12 @@ export const timeline: TimelineEntry[] = [
     org: { id: 'Matahari Grosir', en: 'Matahari Grosir' },
   },
   {
-    year: '2026',
+    year: 'Jul 2025 — sekarang',
     role: { id: 'Desainer UI/UX, Aplikasi Internal', en: 'UI/UX Designer, Internal Application' },
     org: { id: 'TNI AL — Pusinfomar', en: 'TNI AL — Pusinfomar' },
   },
   {
-    year: '2026',
+    year: 'Des 2025',
     role: { id: 'Tim Motion Graphics', en: 'Motion Graphics Team' },
     org: { id: 'HUT ke-50 Darya Varia', en: 'Darya Varia 50th Anniversary' },
   },
@@ -37,7 +37,7 @@ export const timeline: TimelineEntry[] = [
     org: { id: 'Wilhelmina Cup', en: 'Wilhelmina Cup' },
   },
   {
-    year: '2026',
+    year: 'Okt 2026',
     role: { id: 'Fotografer & Retoucher', en: 'Photographer & Retoucher' },
     org: { id: 'Posh by Her', en: 'Posh by Her' },
   },
@@ -47,12 +47,12 @@ export const timeline: TimelineEntry[] = [
     org: { id: 'Si Paling Film', en: 'Si Paling Film' },
   },
   {
-    year: '',
+    year: 'Agu 2025',
     role: { id: 'Tim Kreatif, Dokumentasi & Teknis Lapangan', en: 'Creative, Documentation & Field Tech Team' },
     org: { id: 'BNSP', en: 'BNSP (National Professional Certification Body)' },
   },
   {
-    year: '',
+    year: '2025–2026',
     role: { id: 'Staf Hubungan Masyarakat', en: 'Public Relations Staff' },
     org: { id: 'BEM Polimedia', en: 'BEM Polimedia (Student Executive Board)' },
   },
@@ -69,7 +69,7 @@ export const skills = [
   },
   {
     title: { id: 'Video & Motion', en: 'Video & Motion' },
-    items: ['Adobe Premiere Pro', 'DaVinci Resolve', 'CapCut'],
+    items: ['Adobe After Effects', 'Adobe Premiere Pro', 'DaVinci Resolve', 'CapCut'],
   },
   {
     title: { id: 'Fotografi & Editing', en: 'Photography & Editing' },
