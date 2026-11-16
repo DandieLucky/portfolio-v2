@@ -24,7 +24,7 @@ const isEnglish = href.startsWith('/en');
 ---
 
 <a class={`card project-card project-card--${index % 4}`} href={href} data-tags={tags.join(' ')} data-reveal style={`--i:${Math.min(index, 3)}`}>
-  <div class="card-media">
+  <div class="card-media" data-tilt>
     {hasCover ? (
       <Artwork slug={slug} cover={cover} alt={title} />
     ) : (

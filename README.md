@@ -1,7 +1,7 @@
 # Dandie — Portfolio v2
 
-Portofolio kreatif versi kedua: warna cobalt, lime, dan coral, tipografi besar,
-serta galeri desain, motion, video, fotografi, dan UI/UX. Dibangun dengan Astro.
+Portofolio kreatif bertema light glassmorphism: kaca putih, aksen lavender/mint,
+bevel halus, serta galeri desain, motion, video, fotografi, dan UI/UX. Dibangun dengan Astro.
 Tersedia dalam bahasa Indonesia dan Inggris.
 
 | | Versi 2 |
@@ -14,6 +14,16 @@ Tersedia dalam bahasa Indonesia dan Inggris.
 Versi ini memakai salinan 79 aset asli. Foto, video, gambar proyek, dan PDF CV
 tetap berada di `public/assets/`; tidak ada aset lama yang dihapus atau ditimpa.
 Repositori `dandielucky.github.io` dan website portofolio lama tetap terpisah.
+
+## Tampilan & interaksi
+
+- Panel kaca, navigasi mengambang, dan bingkai karya memakai CSS custom.
+- Tilt 3D ringan pada hero dan kartu karya untuk pointer/mouse. Tidak aktif pada layar sentuh.
+- Reveal saat scroll, elemen hero mengambang, dan transisi halaman Astro.
+- Tombol jeda animasi di header menyimpan pilihan pengunjung di `localStorage`.
+- `prefers-reduced-motion` otomatis mematikan motion dekoratif, termasuk tilt.
+- Filter proyek, lightbox foto, salin email, video, unduh CV, dan navigasi dua bahasa tetap tersedia.
+- Semua 79 file di `public/assets/` dipertahankan tanpa perubahan isi. Tidak ada dependensi produksi baru.
 
 ## Mengambil desain baru ke folder v2 yang sudah dibuat
 

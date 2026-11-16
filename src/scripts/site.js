@@ -7,9 +7,92 @@
 const cleanups = [];
 
 const reduceMotion = () =>
+  document.documentElement.dataset.motion === 'off' ||
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const finePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+// Keep initialisation safe when Astro reuses a document during navigation.
+function listen(target, event, handler, options) {
+  target.addEventListener(event, handler, options);
+  cleanups.push(() => target.removeEventListener(event, handler, options));
+}
+
+/* ---------- persistent, accessible motion preference ---------- */
+function initMotion() {
+  const button = document.querySelector('[data-motion-toggle]');
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const en = document.documentElement.lang === 'en';
+  let paused = false;
+  try { paused = localStorage.getItem('dandie-motion') === 'off'; } catch { /* private browsing */ }
+
+  const sync = () => {
+    const off = paused || media.matches;
+    document.documentElement.dataset.motion = off ? 'off' : 'on';
+    if (!button) return;
+    const label = media.matches
+      ? (en ? 'Motion reduced by device settings' : 'Animasi dikurangi oleh pengaturan perangkat')
+      : off
+        ? (en ? 'Resume decorative motion' : 'Lanjutkan animasi dekoratif')
+        : (en ? 'Pause decorative motion' : 'Jeda animasi dekoratif');
+    button.setAttribute('aria-pressed', String(off));
+    button.setAttribute('aria-label', label);
+    button.title = label;
+    button.disabled = media.matches;
+    const symbol = button.querySelector('[data-motion-symbol]');
+    if (symbol) symbol.textContent = off ? '▷' : 'Ⅱ';
+  };
+  const toggle = () => {
+    paused = !paused;
+    try { localStorage.setItem('dandie-motion', paused ? 'off' : 'on'); } catch { /* optional persistence */ }
+    document.querySelectorAll('[data-tilt]').forEach((el) => {
+      el.style.removeProperty('--tilt-x');
+      el.style.removeProperty('--tilt-y');
+    });
+    sync();
+  };
+  sync();
+  button?.addEventListener('click', toggle);
+  media.addEventListener('change', sync);
+  cleanups.push(() => {
+    button?.removeEventListener('click', toggle);
+    media.removeEventListener('change', sync);
+  });
+}
+
+/* ---------- restrained 3D tilt, only while the pointer moves ---------- */
+function initTilt() {
+  if (!finePointer()) return;
+  document.querySelectorAll('[data-tilt]').forEach((surface) => {
+    let frame = 0;
+    const reset = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      surface.style.removeProperty('--tilt-x');
+      surface.style.removeProperty('--tilt-y');
+    };
+    const move = (event) => {
+      if (reduceMotion()) { reset(); return; }
+      cancelAnimationFrame(frame);
+      const { clientX, clientY } = event;
+      frame = requestAnimationFrame(() => {
+        const rect = surface.getBoundingClientRect();
+        const x = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width)) - .5;
+        const y = Math.min(1, Math.max(0, (clientY - rect.top) / rect.height)) - .5;
+        surface.style.setProperty('--tilt-x', `${(-y * 6).toFixed(2)}deg`);
+        surface.style.setProperty('--tilt-y', `${(x * 6).toFixed(2)}deg`);
+        frame = 0;
+      });
+    };
+    surface.addEventListener('pointermove', move, { passive: true });
+    surface.addEventListener('pointerleave', reset);
+    cleanups.push(() => {
+      reset();
+      surface.removeEventListener('pointermove', move);
+      surface.removeEventListener('pointerleave', reset);
+    });
+  });
+}
 
 /* ---------- header + scroll progress ---------- */
 function initHeader() {
@@ -19,12 +102,14 @@ function initHeader() {
 
   let last = window.scrollY;
   let ticking = false;
+  let frame = 0;
 
   const update = () => {
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 12);
 
-    if (y > 260 && y > last) header.classList.add('is-hidden');
+    if (y > 260 && y > last && !header.contains(document.activeElement) &&
+        !header.querySelector('[aria-expanded="true"]')) header.classList.add('is-hidden');
     else header.classList.remove('is-hidden');
 
     if (bar) {
@@ -40,13 +125,16 @@ function initHeader() {
   const onScroll = () => {
     if (!ticking) {
       ticking = true;
-      requestAnimationFrame(update);
+      frame = requestAnimationFrame(update);
     }
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
   update();
-  cleanups.push(() => window.removeEventListener('scroll', onScroll));
+  cleanups.push(() => {
+    window.removeEventListener('scroll', onScroll);
+    cancelAnimationFrame(frame);
+  });
 }
 
 /* ---------- mobile menu ---------- */
@@ -55,7 +143,7 @@ function initMenu() {
   const nav = document.querySelector('[data-nav]');
   if (!toggle || !nav) return;
 
-  toggle.addEventListener('click', () => {
+  listen(toggle, 'click', () => {
     const open = nav.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(open));
     if(open) nav.querySelector('a')?.focus();
@@ -72,7 +160,7 @@ function initMenu() {
   cleanups.push(() => document.removeEventListener('keydown', onKey));
 
   nav.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
+    listen(a, 'click', () => {
       nav.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
     })
@@ -183,7 +271,7 @@ function initFilters() {
   const empty = document.querySelector('[data-filter-empty]');
 
   buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
+    listen(btn, 'click', () => {
       const value = btn.getAttribute('data-filter');
       buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
 
@@ -234,14 +322,14 @@ function initLightbox() {
   };
 
   links.forEach((link) => {
-    link.addEventListener('click', (e) => {
+    listen(link, 'click', (e) => {
       e.preventDefault();
       open(link.getAttribute('href'), link.getAttribute('aria-label'), link);
     });
   });
 
-  close && close.addEventListener('click', shut);
-  box.addEventListener('click', (e) => {
+  close && listen(close, 'click', shut);
+  listen(box, 'click', (e) => {
     if (e.target === box) shut();
   });
 
@@ -304,11 +392,12 @@ function initCopy() {
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add('is-visible');
-    window.setTimeout(() => toast.classList.remove('is-visible'), 2200);
+    const timer = window.setTimeout(() => toast.classList.remove('is-visible'), 2200);
+    cleanups.push(() => window.clearTimeout(timer));
   };
 
   buttons.forEach((btn) => {
-    btn.addEventListener('click', async () => {
+    listen(btn, 'click', async () => {
       const value = btn.getAttribute('data-copy') || '';
       const original = btn.textContent;
       try {
@@ -378,6 +467,7 @@ function initAll() {
     }
   }
   document.body.style.overflow = '';
+  initMotion();
   initHeader();
   initMenu();
   initReveal();
@@ -388,6 +478,7 @@ function initAll() {
   initCopy();
   initToc();
   initCardVideos();
+  initTilt();
 
   // keep the copied-toast message localised
   const toast = document.querySelector('[data-toast]');

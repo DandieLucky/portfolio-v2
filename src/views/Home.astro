@@ -13,47 +13,56 @@ const all = await getWork(lang);
 const order = ['olimpiade-polimedia-2025', 'pkkmb-polimedia-2026', 'posh-by-her', 'darya-varia', 'matahari-grosir', 'wilhelmina-cup-2024'];
 const selected = order.flatMap(slug => all.filter(p => p.data.slug === slug));
 const services = id ? ['Desain grafis', 'Konten sosial', 'Video & motion', 'Fotografi', 'UI/UX'] : ['Graphic design', 'Social content', 'Video & motion', 'Photography', 'UI/UX'];
+const serviceNotes = id ? ['Identitas yang terasa beda.', 'Cerita dalam setiap unggahan.', 'Beri gerak pada sebuah ide.', 'Menangkap momen, menyimpan rasa.', 'Pengalaman yang enak digunakan.'] : ['An identity with character.', 'A story in every post.', 'Put an idea into motion.', 'Capture a moment, keep a feeling.', 'Experiences that feel intuitive.'];
 ---
 <Base lang={lang} title={t.home.title} description={t.home.description}>
   <section class="creative-hero">
     <div class="wrap">
-      <div class="hero-topline"><span>DANDIE LUCKY MAULANA / VISUAL CREATIVE</span><span>JAKARTA, ID <Icon /></span></div>
+      <div class="hero-topline"><span class="portfolio-label"><i aria-hidden="true"></i> {id ? 'PORTOFOLIO KREATIF' : 'CREATIVE PORTFOLIO'} / 2024—2026</span><span>JAKARTA, INDONESIA <Icon /></span></div>
       <div class="creative-hero-grid">
         <div class="creative-hero-copy">
-          <p class="hero-greeting"><span class="mini-star" aria-hidden="true"><Icon kind="spark" /></span> {id ? 'Ide boleh liar. Eksekusi tetap rapi.' : 'Wild ideas. Thoughtful execution.'}</p>
-          <h1>{id ? 'IDE BAGUS.' : 'GOOD IDEAS.'}<br /><span class="cobalt-type">{id ? 'VISUAL' : 'BOLD'}</span><br /><span class="hero-last">{id ? 'BERANI.' : 'VISUALS.'}<span class="title-spark" aria-hidden="true"><Icon kind="spark" /></span></span></h1>
-          <p class="hero-intro">{id ? 'Halo, saya Dandie. Saya mengolah ide jadi desain, konten, motion, dan foto yang punya karakter.' : 'Hi, I’m Dandie. I turn ideas into design, content, motion, and photography with character.'}</p>
-          <div class="hero-actions"><a class="btn btn--ink" href="#work">{id ? 'Jelajahi karya' : 'Explore my work'} <span aria-hidden="true"><span class="arrow-down-right"><Icon /></span></span></a><a class="text-download" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a></div>
+          <p class="hero-greeting"><span class="mini-star" aria-hidden="true"><Icon kind="spark" /></span> {id ? 'Halo, saya Dandie' : 'Hello, I’m Dandie'}</p>
+          <h1>{id ? 'Ide yang hidup.' : 'Ideas come alive.'}<br />{id ? 'Visual yang' : 'Visuals tell'}<br /><em>{id ? 'bercerita.' : 'a story.'}</em><span class="title-spark" aria-hidden="true"><Icon kind="spark" /></span></h1>
+          <p class="hero-intro">{id ? 'Desainer grafis & kreator visual. Merangkai desain, motion, dan fotografi menjadi karya yang punya karakter.' : 'Graphic designer & visual creative. Bringing design, motion, and photography together to make work with character.'}</p>
+          <div class="hero-actions"><a class="btn btn--ink" href="#work">{id ? 'Jelajahi karya' : 'Explore my work'} <span aria-hidden="true"><Icon /></span></a><a class="text-download" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a></div>
+          <p class="hero-availability"><span class="availability"><i aria-hidden="true"></i>{t.ui.available}</span></p>
         </div>
-        <div class="hero-artboard" aria-label={id ? 'Pilihan karya desain dan fotografi Dandie' : 'A selection of Dandie’s design and photography'}>
-          <div class="artboard-grid" aria-hidden="true"></div><span class="artboard-coordinate" aria-hidden="true">CREATIVE IN PROGRESS</span>
-          <a class="art-print art-print--main" href={href('/work/olimpiade-polimedia-2025', lang)} aria-label={id ? 'Lihat proyek Olimpiade Polimedia' : 'Explore Polimedia Olympiad'}><img src="/assets/work/olimpiade-polimedia-2025/poster-04.jpg" alt="Desain konten Olimpiade Polimedia 2025" width="900" height="1600" fetchpriority="high" /><span>01 / GRAPHIC DESIGN <span><Icon /></span></span></a>
-          <a class="art-print art-print--photo" href={href('/work/posh-by-her', lang)} aria-label={id ? 'Lihat fotografi Posh by Her' : 'Explore Posh by Her photography'}><img src="/assets/work/posh-by-her/foto-01.jpg" alt="Fotografi acara Posh by Her" width="1067" height="1600" /><span>02 / PHOTOGRAPHY <span><Icon /></span></span></a>
-          <span class="art-sticker" aria-hidden="true">MAKE<br />IT<br /><b>POP.</b></span><span class="artboard-bottom" aria-hidden="true">IDEA → VISUAL → IMPACT <span><Icon kind="spark" /></span></span>
+        <div class="canvas-scene">
+          <div class="glass-orb glass-orb--lavender" aria-hidden="true"></div><div class="glass-orb glass-orb--mint" aria-hidden="true"></div>
+          <div class="hero-artboard" data-tilt aria-label={id ? 'Pilihan karya desain dan fotografi Dandie' : 'Selected design and photography by Dandie'}>
+            <div class="canvas-top"><span><i aria-hidden="true"></i> {id ? 'DI MEJA KREATIF' : 'ON MY CREATIVE DESK'}</span><span aria-hidden="true">↗</span></div>
+            <div class="artboard-grid" aria-hidden="true"></div>
+            <a class="art-print art-print--main" href={href('/work/olimpiade-polimedia-2025', lang)} aria-label={id ? 'Lihat proyek Olimpiade Polimedia' : 'Explore Polimedia Olympiad'}><img src="/assets/work/olimpiade-polimedia-2025/poster-04.jpg" alt={id ? 'Desain konten Olimpiade Polimedia 2025' : 'Polimedia Olympiad 2025 content design'} width="900" height="1600" fetchpriority="high" /><span><b>01</b> GRAPHIC DESIGN <Icon /></span></a>
+            <a class="art-print art-print--photo" href={href('/work/posh-by-her', lang)} aria-label={id ? 'Lihat fotografi Posh by Her' : 'Explore Posh by Her photography'}><img src="/assets/work/posh-by-her/foto-01.jpg" alt={id ? 'Fotografi acara Posh by Her' : 'Posh by Her event photography'} width="1067" height="1600" /><span><b>02</b> PHOTOGRAPHY <Icon /></span></a>
+            <span class="canvas-spark" aria-hidden="true"><Icon kind="spark" /></span>
+            <span class="artboard-bottom"><span>{id ? 'Sedikit rasa ingin tahu. Banyak kemungkinan.' : 'A little curiosity. Endless possibilities.'}</span><span aria-hidden="true">✦</span></span>
+          </div>
+          <div class="floating-note" aria-hidden="true"><span class="note-icon"><Icon kind="spark" /></span><span>{id ? 'Dari ide, jadi nyata.' : 'From an idea to reality.'}<small>DESIGN · MOTION · PHOTO</small></span></div>
+          <span class="canvas-caption">{id ? 'KARYA ASLI. CERITA SENDIRI.' : 'ORIGINAL WORK. PERSONAL STORIES.'}</span>
         </div>
       </div>
-      <div class="hero-bottomline"><span class="availability"><i></i>{t.ui.available}</span><a href="#work">{id ? 'Ada banyak cerita di bawah' : 'More stories below'} <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-bottomline"><span>{id ? 'Banyak medium. Satu rasa ingin tahu.' : 'Many mediums. One curious mind.'}</span><a href="#work">{id ? 'Scroll untuk eksplorasi' : 'Scroll to explore'} <span class="scroll-cue" aria-hidden="true">↓</span></a></div>
     </div>
   </section>
-  <div class="discipline-strip" aria-label={id ? 'Bidang kreatif' : 'Creative disciplines'}><div>{services.map(s => <span>{s}<b aria-hidden="true"><Icon kind="spark" /></b></span>)}</div></div>
+  <div class="discipline-strip" aria-label={id ? 'Bidang kreatif' : 'Creative disciplines'}><div class="wrap">{services.map(s => <span>{s}<b aria-hidden="true"><Icon kind="spark" /></b></span>)}</div></div>
   <section class="section home-work" id="work">
     <div class="wrap">
-      <div class="section-kicker"><p class="eyebrow">01 / {t.home.workEyebrow}</p><span class="edition-label">2024—2026</span></div>
-      <div class="work-heading"><h2>{id ? 'KARYA YANG' : 'WORK THAT'}<br /><span>{id ? 'PUNYA SUARA.' : 'SPEAKS UP.'}</span></h2><p>{id ? 'Dari poster kampus sampai konten brand. Ini cara saya menerjemahkan brief menjadi sesuatu yang bisa dilihat, dirasakan, dan diingat.' : 'From campus posters to brand content. A look at how I turn a brief into something you can see, feel, and remember.'}</p></div>
+      <div class="section-kicker"><p class="eyebrow"><span class="section-number">01</span> {t.home.workEyebrow}</p><span class="edition-label">2024—2026</span></div>
+      <div class="work-heading" data-reveal><h2>{id ? 'Dari ide,' : 'From an idea,'}<br /><em>{id ? 'menjadi karya.' : 'to something real.'}</em></h2><p>{t.home.workLede}</p></div>
       <div class="home-project-grid">{selected.map((p, i) => <ProjectCard title={p.data.title} meta={p.data.disciplines.map(d => disciplineLabel(d, lang))} role={p.data.role} href={href(`/work/${p.data.slug}`, lang)} cover={p.data.cover ?? ''} slug={p.data.slug} tags={p.data.disciplines} status={p.data.status} index={i} />)}</div>
-      <div class="all-work-bar"><p>{id ? 'Masih ada cerita lainnya.' : 'There’s more to explore.'}</p><a class="btn" href={href('/work', lang)}>{t.ui.seeAll} <span aria-hidden="true"><Icon /></span></a></div>
+      <div class="all-work-bar"><p>{id ? 'Setiap proyek punya ceritanya sendiri.' : 'Every project has a story of its own.'}</p><a class="btn" href={href('/work', lang)}>{t.ui.seeAll} <span aria-hidden="true"><Icon /></span></a></div>
     </div>
   </section>
   <section class="creative-toolbox section">
     <div class="wrap">
-      <div class="section-kicker"><p class="eyebrow">02 / {id ? 'BANYAK MEDIUM, SATU CARA BERPIKIR' : 'MANY MEDIUMS, ONE MINDSET'}</p><span class="large-asterisk" aria-hidden="true"><Icon kind="spark" /></span></div>
-      <div class="toolbox-layout"><div><h2>{id ? 'SATU IDE.' : 'ONE IDEA.'}<br />{id ? 'BANYAK' : 'MANY'}<br /><span>{id ? 'KEMUNGKINAN.' : 'POSSIBILITIES.'}</span></h2><p>{id ? 'Saya suka berpindah medium. Yang tetap sama: memahami konteks, menemukan karakter visual, lalu mengerjakannya sampai selesai.' : 'I like moving between mediums. What stays the same: understanding the context, finding a visual character, and seeing it through.'}</p></div><div class="discipline-list">{services.map((s,i) => <a href={href(i === 3 ? '/fotografi' : '/work', lang)}><span class="discipline-n">0{i+1}</span><span>{s}</span><span aria-hidden="true"><Icon /></span></a>)}</div></div>
+      <div class="section-kicker"><p class="eyebrow"><span class="section-number">02</span> {id ? 'Ruang eksplorasi' : 'Room to explore'}</p><span class="edition-label">{id ? 'LINTAS MEDIUM' : 'ACROSS MEDIUMS'}</span></div>
+      <div class="toolbox-layout"><div data-reveal><span class="toolbox-sculpture" aria-hidden="true"><Icon kind="spark" /></span><h2>{id ? 'Satu ide.' : 'One idea.'}<br /><em>{id ? 'Banyak kemungkinan.' : 'So many possibilities.'}</em></h2><p>{id ? 'Medium boleh berubah. Rasa ingin tahu tetap sama. Saya menemukan karakter setiap ide, lalu mengolahnya dengan cara yang paling tepat.' : 'The medium may change. The curiosity stays. I find the character in each idea, then bring it to life in the way that fits.'}</p></div><div class="discipline-list">{services.map((s,i) => <a href={href(i === 3 ? '/fotografi' : '/work', lang)} data-reveal style={`--i:${i}`}><span class="discipline-n">0{i+1}</span><span>{s}<small>{serviceNotes[i]}</small></span><span aria-hidden="true"><Icon /></span></a>)}</div></div>
     </div>
   </section>
   <section class="section creative-about">
     <div class="wrap creative-about-grid">
-      <div class="portrait-composition" data-reveal><div class="portrait-mat"><img src="/assets/about/portrait.jpg" alt="Dandie Lucky Maulana" width="1200" height="1500" loading="lazy" /></div><span class="portrait-note">{id ? 'ORANG DI BALIK KARYA' : 'THE HUMAN BEHIND THE WORK'} <span aria-hidden="true"><Icon /></span></span><span class="portrait-star" aria-hidden="true"><Icon kind="spark" /></span></div>
-      <div class="creative-about-copy" data-reveal><p class="eyebrow">03 / {id ? 'SEDIKIT TENTANG SAYA' : 'A LITTLE ABOUT ME'}</p><h2>{id ? 'SERIUS BERKARYA.' : 'SERIOUS ABOUT WORK.'}<br /><span>{id ? 'TETAP EKSPLORASI.' : 'ALWAYS EXPLORING.'}</span></h2><p class="lede">{id ? 'Saya Dandie, desainer grafis dan kreator visual dari Jakarta Selatan. Saat ini kuliah D4 Teknologi Rekayasa Multimedia di Polimedia.' : 'I’m Dandie, a graphic designer and visual creative based in South Jakarta, studying Applied Multimedia Engineering at Polimedia.'}</p><p>{id ? 'Sejak 2025, saya mengerjakan konten media sosial, desain acara, motion graphics, dan fotografi. Saya senang mencoba medium baru, tanpa melupakan detail kecil yang membuat hasilnya terasa utuh.' : 'Since 2025, I’ve worked on social content, event design, motion graphics, and photography. I enjoy trying new mediums while keeping an eye on the details that hold the work together.'}</p><a class="btn btn--ink" href={href('/about', lang)}>{id ? 'Kenalan lebih jauh' : 'More about me'} <span aria-hidden="true"><Icon /></span></a></div>
+      <div class="portrait-composition" data-reveal><div class="portrait-mat"><img src="/assets/about/portrait.jpg" alt="Dandie Lucky Maulana" width="1200" height="1500" loading="lazy" /></div><span class="portrait-note"><span>DANDIE LUCKY MAULANA<small>{id ? 'Orang di balik karya' : 'The human behind the work'}</small></span><span aria-hidden="true"><Icon kind="spark" /></span></span></div>
+      <div class="creative-about-copy" data-reveal><p class="eyebrow"><span class="section-number">03</span> {id ? 'Sedikit tentang saya' : 'A little about me'}</p><h2>{id ? 'Serius berkarya.' : 'Serious about work.'}<br /><em>{id ? 'Selalu penasaran.' : 'Always curious.'}</em></h2><p class="lede">{id ? 'Saya Dandie, desainer grafis dan kreator visual dari Jakarta Selatan. Saat ini kuliah D4 Teknologi Rekayasa Multimedia di Polimedia.' : 'I’m Dandie, a graphic designer and visual creative based in South Jakarta, studying Applied Multimedia Engineering at Polimedia.'}</p><p>{id ? 'Sejak 2025, saya mengerjakan konten media sosial, desain acara, motion graphics, dan fotografi. Saya senang mencoba medium baru, tanpa melupakan detail kecil yang membuat hasilnya terasa utuh.' : 'Since 2025, I’ve worked on social content, event design, motion graphics, and photography. I enjoy trying new mediums while keeping an eye on the details that hold the work together.'}</p><a class="btn" href={href('/about', lang)}>{id ? 'Kenalan lebih jauh' : 'More about me'} <span aria-hidden="true"><Icon /></span></a></div>
     </div>
   </section>
 </Base>

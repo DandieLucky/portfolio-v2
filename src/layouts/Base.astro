@@ -1,5 +1,6 @@
 ---
 import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces/wght-italic.css';
 import '@fontsource-variable/jetbrains-mono';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
@@ -54,8 +55,13 @@ const ogImage = `${siteUrl}${og ?? '/assets/og.png'}`;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <meta name="theme-color" content="#faf9f5" />
+    <meta name="theme-color" content="#f6f7fb" />
     <meta name="color-scheme" content="light" />
+    <script is:inline>
+      try {
+        if (localStorage.getItem('dandie-motion') === 'off') document.documentElement.dataset.motion = 'off';
+      } catch { /* Motion preferences are optional when storage is unavailable. */ }
+    </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
@@ -92,6 +98,7 @@ const ogImage = `${siteUrl}${og ?? '/assets/og.png'}`;
   </head>
 
   <body data-lang={lang}>
+    <div class="ambient" aria-hidden="true"><span></span><span></span><span></span></div>
     <a class="skip-link" href="#main">{t.ui.skip}</a>
     <div class="progress" aria-hidden="true"></div>
 
@@ -104,8 +111,8 @@ const ogImage = `${siteUrl}${og ?? '/assets/og.png'}`;
     <Footer lang={lang} noCta={noCta} />
 
 
-    <div class="lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Gambar diperbesar">
-      <button class="lightbox-close" type="button" data-lightbox-close aria-label="Tutup">✕</button>
+    <div class="lightbox" data-lightbox role="dialog" aria-modal="true" aria-label={lang === 'id' ? 'Gambar diperbesar' : 'Enlarged image'}>
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label={lang === 'id' ? 'Tutup' : 'Close'}>✕</button>
       <img alt="" data-lightbox-img />
     </div>
 
