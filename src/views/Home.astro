@@ -3,17 +3,15 @@ import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { ui, href, site, type Lang } from '../i18n/ui';
-import { getWork } from '../lib/work';
+import { getFeatured } from '../lib/work';
 import { disciplineLabel } from '../data/disciplines';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = ui[lang];
 const id = lang === 'id';
-const all = await getWork(lang);
-const order = ['olimpiade-polimedia-2025', 'pkkmb-polimedia-2026', 'posh-by-her', 'darya-varia', 'matahari-grosir', 'wilhelmina-cup-2024'];
-const selected = order.flatMap(slug => all.filter(p => p.data.slug === slug));
-const services = id ? ['Desain grafis', 'Konten sosial', 'Video & motion', 'Fotografi', 'UI/UX'] : ['Graphic design', 'Social content', 'Video & motion', 'Photography', 'UI/UX'];
-const serviceNotes = id ? ['Identitas yang terasa beda.', 'Cerita dalam setiap unggahan.', 'Beri gerak pada sebuah ide.', 'Menangkap momen, menyimpan rasa.', 'Pengalaman yang enak digunakan.'] : ['An identity with character.', 'A story in every post.', 'Put an idea into motion.', 'Capture a moment, keep a feeling.', 'Experiences that feel intuitive.'];
+const selected = await getFeatured(lang, 6);
+const services = id ? ['Branding & identitas', 'Desain grafis', 'Konten sosial', 'Video & motion', 'Fotografi'] : ['Branding & identity', 'Graphic design', 'Social content', 'Video & motion', 'Photography'];
+const serviceNotes = id ? ['Karakter visual sebuah brand.', 'Ide yang menemukan bentuk.', 'Cerita dalam setiap unggahan.', 'Beri gerak pada sebuah ide.', 'Menangkap momen, menyimpan rasa.'] : ['A brand’s visual character.', 'Giving an idea a visual form.', 'A story in every post.', 'Put an idea into motion.', 'Capture a moment, keep a feeling.'];
 ---
 <Base lang={lang} title={t.home.title} description={t.home.description}>
   <section class="creative-hero">
@@ -56,7 +54,7 @@ const serviceNotes = id ? ['Identitas yang terasa beda.', 'Cerita dalam setiap u
   <section class="creative-toolbox section">
     <div class="wrap">
       <div class="section-kicker"><p class="eyebrow"><span class="section-number">02</span> {id ? 'Ruang eksplorasi' : 'Room to explore'}</p><span class="edition-label">{id ? 'LINTAS MEDIUM' : 'ACROSS MEDIUMS'}</span></div>
-      <div class="toolbox-layout"><div data-reveal><span class="toolbox-sculpture" aria-hidden="true"><Icon kind="spark" /></span><h2>{id ? 'Satu ide.' : 'One idea.'}<br /><em>{id ? 'Banyak kemungkinan.' : 'So many possibilities.'}</em></h2><p>{id ? 'Medium boleh berubah. Rasa ingin tahu tetap sama. Saya menemukan karakter setiap ide, lalu mengolahnya dengan cara yang paling tepat.' : 'The medium may change. The curiosity stays. I find the character in each idea, then bring it to life in the way that fits.'}</p></div><div class="discipline-list">{services.map((s,i) => <a href={href(i === 3 ? '/fotografi' : '/work', lang)} data-reveal style={`--i:${i}`}><span class="discipline-n">0{i+1}</span><span>{s}<small>{serviceNotes[i]}</small></span><span aria-hidden="true"><Icon /></span></a>)}</div></div>
+      <div class="toolbox-layout"><div data-reveal><span class="toolbox-sculpture" aria-hidden="true"><Icon kind="spark" /></span><h2>{id ? 'Satu ide.' : 'One idea.'}<br /><em>{id ? 'Banyak kemungkinan.' : 'So many possibilities.'}</em></h2><p>{id ? 'Medium boleh berubah. Rasa ingin tahu tetap sama. Saya menemukan karakter setiap ide, lalu mengolahnya dengan cara yang paling tepat.' : 'The medium may change. The curiosity stays. I find the character in each idea, then bring it to life in the way that fits.'}</p></div><div class="discipline-list">{services.map((s,i) => <a href={href(i === 4 ? '/fotografi' : '/work', lang)} data-reveal style={`--i:${i}`}><span class="discipline-n">0{i+1}</span><span>{s}<small>{serviceNotes[i]}</small></span><span aria-hidden="true"><Icon /></span></a>)}</div></div>
     </div>
   </section>
   <section class="section creative-about">

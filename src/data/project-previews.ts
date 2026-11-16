@@ -16,4 +16,8 @@ export const projectPreviews: Record<string, { src: string; position?: string; f
     src: '/assets/work/posh-by-her/foto-01.jpg',
     position: '50% 35%',
   },
+  'bnsp': {
+    src: '/assets/work/bnsp/kegiatan-04.jpg',
+    fit: 'contain',
+  },
 };

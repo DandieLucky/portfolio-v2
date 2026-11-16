@@ -1,31 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
 import Gallery from '../components/Gallery.astro';
+import { getPhotographyAlbums } from '../data/photography';
 import { ui, href, type Lang } from '../i18n/ui';
 import '../styles/secondary.css';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const id = lang === 'id';
 const t = ui[lang].photos;
-const photos = Array.from({ length: 11 }, (_, i) => ({
-  src: `/assets/gallery/foto-${String(i + 1).padStart(2, '0')}.jpg`,
-  alt: id ? `Foto arsip Dandie Lucky Maulana ${i + 1}` : `Dandie Lucky Maulana archive photograph ${i + 1}`,
-  caption: `${String(i + 1).padStart(2, '0')} / ${id ? 'Catatan visual' : 'Visual notes'}`,
-}));
+const albums = getPhotographyAlbums(lang);
+const count = albums.reduce((total, album) => total + album.items.length, 0);
 ---
-
 <Base lang={lang} title={t.title} description={t.description}>
   <section class="page-opening v2-photo-opening">
     <div class="wrap">
-      <div class="v2-page-kicker"><p class="eyebrow">{id ? 'Fotografi / Arsip pribadi' : 'Photography / Personal archive'}</p><span>11 {id ? 'BINGKAI' : 'FRAMES'} ↘</span></div>
+      <div class="v2-page-kicker"><p class="eyebrow">{id ? 'Fotografi / Acara, potret & dokumentasi' : 'Photography / Events, portraits & documentation'}</p><span>{count} {id ? 'BINGKAI' : 'FRAMES'} ↘</span></div>
       <h1 class="v2-page-title" data-reveal>{id ? 'Melihat.' : 'Observe.'}<br /><span class="v2-cobalt">{id ? 'Merekam.' : 'Capture.'}</span></h1>
       <div class="v2-photo-intro"><p class="lede">{t.lede}</p><p class="v2-photo-note"><span aria-hidden="true">↗</span>{t.note}</p></div>
+      <nav class="photo-album-nav" aria-label={id ? 'Album fotografi' : 'Photography albums'}>{albums.map(album => <a href={`#${album.id}`}>{album.title}<span>{album.items.length}</span></a>)}</nav>
     </div>
   </section>
   <section class="v2-photo-archive">
     <div class="wrap">
-      <div class="v2-photo-gallery"><Gallery items={photos} natural /></div>
-      <div class="v2-photo-end"><span class="v2-end-mark" aria-hidden="true">◎</span><p>{id ? 'Setiap bingkai, cara lain untuk melihat.' : 'Every frame, another way of seeing.'}</p><a class="btn btn--ghost" href={href('/work', lang)}>{id ? 'Lihat karya berbasis proyek' : 'Explore project work'} <span aria-hidden="true">↗</span></a></div>
+      {albums.map((album, i) => <section class="photo-album" id={album.id} aria-labelledby={`${album.id}-title`}>
+        <div class="photo-album-heading"><div><p class="eyebrow">{String(i + 1).padStart(2, '0')} / {album.items.length} {id ? 'foto' : 'photographs'}</p><h2 id={`${album.id}-title`}>{album.title}</h2><p>{album.description}</p></div>{album.project && <a class="link" href={href(album.project, lang)}>{id ? 'Cerita proyek' : 'Project story'} <span aria-hidden="true">↗</span></a>}</div>
+        <div class:list={['v2-photo-gallery', album.items.length === 1 && 'photo-album--portrait']}><Gallery items={album.items} natural /></div>
+      </section>)}
+      <div class="v2-photo-end"><span class="v2-end-mark" aria-hidden="true">◎</span><p>{id ? 'Setiap bingkai, cara lain untuk melihat.' : 'Every frame, another way of seeing.'}</p><a class="btn btn--ghost" href={href('/work', lang)}>{id ? 'Lihat seluruh proyek' : 'Explore all projects'} <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
 </Base>

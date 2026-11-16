@@ -14,11 +14,16 @@ export const timeline: TimelineEntry[] = [
   {
     year: 'Jul 2025 — sekarang',
     role: { id: 'Desainer UI/UX, Aplikasi Internal', en: 'UI/UX Designer, Internal Application' },
-    org: { id: 'TNI AL — Pusinfomar', en: 'TNI AL — Pusinfomar' },
+    org: { id: 'Proyek aplikasi internal instansi pemerintah', en: 'Government internal application project' },
+  },
+  {
+    year: '',
+    role: { id: 'Editor Video', en: 'Video Editor' },
+    org: { id: 'Pusinfomar TNI', en: 'Pusinfomar TNI' },
   },
   {
     year: 'Des 2025',
-    role: { id: 'Tim Motion Graphics', en: 'Motion Graphics Team' },
+    role: { id: 'Motion Graphics Artist (Freelance)', en: 'Motion Graphics Artist (Freelance)' },
     org: { id: 'HUT ke-50 Darya Varia', en: 'Darya Varia 50th Anniversary' },
   },
   {
@@ -38,7 +43,7 @@ export const timeline: TimelineEntry[] = [
   },
   {
     year: 'Okt 2026',
-    role: { id: 'Fotografer & Retoucher', en: 'Photographer & Retoucher' },
+    role: { id: 'Fotografer Acara (Freelance)', en: 'Event Photographer (Freelance)' },
     org: { id: 'Posh by Her', en: 'Posh by Her' },
   },
   {
@@ -48,8 +53,8 @@ export const timeline: TimelineEntry[] = [
   },
   {
     year: 'Agu 2025',
-    role: { id: 'Tim Kreatif, Dokumentasi & Teknis Lapangan', en: 'Creative, Documentation & Field Tech Team' },
-    org: { id: 'BNSP', en: 'BNSP (National Professional Certification Body)' },
+    role: { id: 'Dokumentasi & Teknis Lapangan', en: 'Documentation & On-site Technical Support' },
+    org: { id: 'Kegiatan asesmen BNSP (melalui vendor)', en: 'BNSP assessment activities (through a vendor)' },
   },
   {
     year: '2025–2026',
@@ -73,7 +78,7 @@ export const skills = [
   },
   {
     title: { id: 'Fotografi & Editing', en: 'Photography & Editing' },
-    items: ['Adobe Lightroom', 'Product photography', 'Retouching'],
+    items: ['Adobe Lightroom', 'Event photography', 'Retouching'],
   },
   {
     title: { id: 'AI & Otomasi Kerja', en: 'AI & Work Automation' },

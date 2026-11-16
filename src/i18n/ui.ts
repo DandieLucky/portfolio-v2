@@ -118,7 +118,7 @@ export const ui: Record<Lang, Copy> = {
     home: {
       title: 'Dandie Lucky Maulana — Desainer Grafis & Konten Media Sosial',
       description:
-        'Portofolio Dandie Lucky Maulana: desain grafis, konten media sosial, motion graphics, fotografi, dan UI/UX. Mahasiswa D4 Teknologi Rekayasa Multimedia, Polimedia Jakarta.',
+        'Portofolio Dandie Lucky Maulana: desain grafis, konten media sosial, video editing, motion graphics, dan fotografi. Mahasiswa D4 Teknologi Rekayasa Multimedia, Polimedia Jakarta.',
       heroLines: ['Visual yang', 'membuat orang', 'berhenti *scrolling*.'],
       heroLede:
         'Saya Dandie, desainer grafis dan spesialis konten media sosial di Jakarta. Merangkai desain, video, dan fotografi agar brand punya karakter yang konsisten.',
@@ -155,7 +155,7 @@ export const ui: Record<Lang, Copy> = {
       aboutTitle: 'Desainer yang juga bisa membangun alatnya sendiri.',
       aboutBody: [
         'Saya mahasiswa semester 5 D4 Teknologi Rekayasa Multimedia di Politeknik Negeri Media Kreatif Jakarta. Sejak Mei 2025 saya memegang seluruh konten media sosial sebuah bisnis grosir snack — dari brief, desain, caption, sampai jadwal tayang.',
-        'Di sisi lain saya mengerjakan motion graphics, fotografi produk, dan merancang antarmuka aplikasi internal untuk instansi. Kombinasi ini membuat saya terbiasa bekerja dengan orang non-desainer: mendengar kebutuhan, menerjemahkannya jadi brief, lalu mengeksekusi.',
+        'Di sisi lain saya mengerjakan motion graphics, fotografi acara, dan merancang antarmuka aplikasi internal untuk instansi. Kombinasi ini membuat saya terbiasa bekerja dengan orang non-desainer: mendengar kebutuhan, menerjemahkannya jadi brief, lalu mengeksekusi.',
       ],
       ctaEyebrow: 'Kontak',
       ctaTitle: 'Punya brief? Mari *bikin sesuatu*.',
@@ -164,7 +164,7 @@ export const ui: Record<Lang, Copy> = {
     },
     work: {
       title: 'Karya — Dandie Lucky Maulana',
-      description: 'Kumpulan proyek desain grafis, konten media sosial, motion graphics, fotografi, dan UI/UX.',
+      description: 'Kumpulan proyek desain grafis, konten media sosial, video editing, motion graphics, dan fotografi.',
       eyebrow: 'Indeks karya',
       lede: 'Semua proyek, urut dari yang paling relevan. Gunakan filter untuk melihat per bidang.',
       all: 'Semua',
@@ -193,11 +193,11 @@ export const ui: Record<Lang, Copy> = {
       portraitSlot: 'Slot foto — ganti public/assets/about/portrait.jpg',
     },
     photos: {
-      title: 'Fotografi — arsip',
-      description: 'Arsip foto: dokumentasi acara, potret, dan pemandangan yang saya ambil sendiri.',
+      title: 'Fotografi & Dokumentasi — Dandie Lucky Maulana',
+      description: 'Fotografi acara dan dokumentasi: Posh by Her, kegiatan BNSP, potret, dan arsip foto.',
       eyebrow: 'Fotografi',
       headline: 'Arsip foto',
-      lede: 'Sebagian foto lepas di luar proyek klien — hasil latihan dan dokumentasi lapangan. Semua diambil dan diolah sendiri.',
+      lede: 'Hasil pemotretan dan dokumentasi dalam satu tempat: acara Posh by Her, kegiatan BNSP, potret, serta arsip foto. Jelajahi tiap album untuk melihat seluruh foto yang tersedia.',
       note: 'Klik foto untuk melihat ukuran penuh.',
     },
     lab: {
@@ -250,7 +250,7 @@ export const ui: Record<Lang, Copy> = {
     home: {
       title: 'Dandie Lucky Maulana — Graphic Designer & Social Media Content',
       description:
-        'Portfolio of Dandie Lucky Maulana: graphic design, social media content, motion graphics, photography, and UI/UX. Multimedia Engineering student at Polimedia Jakarta.',
+        'Portfolio of Dandie Lucky Maulana: graphic design, social media content, video editing, motion graphics, and photography. Multimedia Engineering student at Polimedia Jakarta.',
       heroLines: ['Visuals that', 'make people', 'stop *scrolling*.'],
       heroLede:
         'I am Dandie, a graphic designer and social media specialist in Jakarta. I bring design, video, and photography together to give brands a consistent character.',
@@ -286,7 +286,7 @@ export const ui: Record<Lang, Copy> = {
       aboutTitle: 'A designer who can also build the tools.',
       aboutBody: [
         'I am a fifth-semester Applied Multimedia Engineering student at Politeknik Negeri Media Kreatif Jakarta. Since May 2025 I have owned the entire social media content of a snack wholesale business — from brief, design and captions to the publishing schedule.',
-        'On the other side I have produced motion graphics, product photography, and designed the interface of an internal application for a government institution. That mix means I am used to working with non-designers: listening to a need, turning it into a brief, then executing.',
+        'On the other side I have produced motion graphics, event photography, and designed the interface of an internal application for a government institution. That mix means I am used to working with non-designers: listening to a need, turning it into a brief, then executing.',
       ],
       ctaEyebrow: 'Contact',
       ctaTitle: 'Got a brief? Let us *make something*.',
@@ -295,7 +295,7 @@ export const ui: Record<Lang, Copy> = {
     },
     work: {
       title: 'Work — Dandie Lucky Maulana',
-      description: 'Selected projects in graphic design, social media content, motion graphics, photography and UI/UX.',
+      description: 'Selected projects in graphic design, social media content, video editing, motion graphics, and photography.',
       eyebrow: 'Work index',
       lede: 'Every project, ordered by relevance. Use the filters to view by discipline.',
       all: 'All',
@@ -324,11 +324,11 @@ export const ui: Record<Lang, Copy> = {
       portraitSlot: 'Image slot — replace public/assets/about/portrait.jpg',
     },
     photos: {
-      title: 'Photography — archive',
-      description: 'Photo archive: event documentation, portraits, and scenery I shot myself.',
+      title: 'Photography & Documentation — Dandie Lucky Maulana',
+      description: 'Event photography and documentation: Posh by Her, BNSP activities, portraits, and the photo archive.',
       eyebrow: 'Photography',
       headline: 'Photo archive',
-      lede: 'Standalone photographs outside client work — practice and field documentation. All shot and edited by me.',
+      lede: 'Photography and documentation in one place: Posh by Her events, BNSP activities, portraits, and the photo archive. Explore each album to see all available photographs.',
       note: 'Click a photo to open it full size.',
     },
     lab: {

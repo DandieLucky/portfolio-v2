@@ -1,7 +1,7 @@
 # Dandie — Portfolio v2
 
 Portofolio kreatif bertema light glassmorphism: kaca putih, aksen lavender/mint,
-bevel halus, serta galeri desain, motion, video, fotografi, dan UI/UX. Dibangun dengan Astro.
+bevel halus, serta galeri desain, motion, video, dan fotografi. Dibangun dengan Astro.
 Tersedia dalam bahasa Indonesia dan Inggris.
 
 | | Versi 2 |
@@ -24,6 +24,9 @@ Repositori `dandielucky.github.io` dan website portofolio lama tetap terpisah.
 - `prefers-reduced-motion` otomatis mematikan motion dekoratif, termasuk tilt.
 - Filter proyek, lightbox foto, salin email, video, unduh CV, dan navigasi dua bahasa tetap tersedia.
 - Semua 79 file di `public/assets/` dipertahankan tanpa perubahan isi. Tidak ada dependensi produksi baru.
+- Fotografi menggabungkan Posh by Her, dokumentasi BNSP, arsip foto, dan potret profil. Foto Posh by Her dibaca dari folder aset saat build dan dipakai bersama oleh halaman proyek dan Fotografi.
+- Urutan di beranda, arsip, dan proyek berikutnya memakai nilai `order` konten yang sama.
+- Pusinfomar adalah proyek editing video; proyek UI/UX instansi pemerintah di riwayat pengalaman merupakan entri terpisah.
 
 ## Mengambil desain baru ke folder v2 yang sudah dibuat
 
@@ -85,6 +88,7 @@ atau menunjuk repo portofolio lama. Login GitHub/Git di komputer tetap diperluka
 | Isi proyek dua bahasa | `src/content/work/id/` dan `src/content/work/en/` |
 | Teks UI dan kontak | `src/i18n/ui.ts` |
 | Pengalaman dan keahlian | `src/data/timeline.ts` |
+| Album fotografi dan foto Posh by Her | `src/data/photography.ts` |
 | Foto dan video asli | `public/assets/` |
 | CV | `public/assets/cv/Dandie-Lucky-Maulana_CV.pdf` |
 

@@ -1,58 +1,36 @@
 ---
 lang: en
 slug: posh-by-her
-order: 6
-title: "Product Photography for Posh by Her"
-tagline: "Shooting and processing product photos so they are ready to carry the brand."
-summary: "Product photo session and post-processing for both content and catalogue needs."
-role: "Photographer & Retoucher"
+order: 8
+title: "Event Photography for Posh by Her"
+tagline: "Capturing guest portraits, interactions, and the atmosphere of Posh by Her events."
+summary: "Event photography for Posh by Her: shoot planning, event coverage, photo selection, and Lightroom editing."
+role: "Event Photographer"
 client: "Posh by Her"
 year: "2026"
 disciplines: ["foto"]
-scope: ["Product photography", "Retouching", "Catalogue material"]
-tools: ["Lightroom", "Photoshop"]
+scope: ["Shoot planning", "Event documentation", "Photo selection & editing"]
+tools: ["Adobe Lightroom"]
 cover: "/assets/work/posh-by-her/cover.jpg"
 featured: true
 status: live
 ---
 
 import Gallery from '../../../components/Gallery.astro';
+import { getPoshPhotos } from '../../../data/photography';
 
-## Context
+## About the project
 
-The brand needs product photos it can reuse: for social content and catalogue material alike, with colour that stays consistent across sessions.
+Event documentation for Posh by Her in October 2026. The photographs show guests, individual and group portraits, and interactions during the events.
 
 ## My role
 
-Shooting, selecting the frames, then processing them to a publish-ready state per the client's direction.
+As a freelance event photographer, I planned the shoots, covered weekly activities over one month, then selected and edited the photographs in Lightroom.
 
-## Constraints
+## Project material
 
-- Limited space and gear, so lighting is kept simple but consistent.
-- Product colour has to stay accurate — it may not look different from the real item.
-- Frames from different sessions still have to read as one series.
+This gallery contains all Posh by Her photographs available on the site. The same photographs can also be explored on the Photography page.
 
-## Process
+<Gallery natural items={getPoshPhotos('en')} />
 
-1. **Setting up a simple set** and fixing the light position for every product.
-2. **Shooting several angles** per product so there is a choice when composing content.
-3. **Selecting** the strongest frames and dropping the rest.
-4. **Processing in Lightroom**: colour correction, contrast, cleaning the background and small marks.
-
-<Gallery
-  natural
-  items={[
-    { src: '/assets/work/posh-by-her/foto-01.jpg', alt: 'Posh by Her product photo', caption: 'Session 1' },
-    { src: '/assets/work/posh-by-her/foto-02.jpg', alt: 'Posh by Her product photo', caption: 'Session 1' },
-    { src: '/assets/work/posh-by-her/foto-03.jpg', alt: 'Posh by Her product photo', caption: 'Session 1' },
-    { src: '/assets/work/posh-by-her/foto-04.jpg', alt: 'Posh by Her product photo', caption: 'Session 1' },
-    { src: '/assets/work/posh-by-her/foto-05.jpg', alt: 'Posh by Her product photo', caption: 'Session 1' },
-    { src: '/assets/work/posh-by-her/foto-06.jpg', alt: 'Posh by Her product photo', caption: 'Session 1' },
-    { src: '/assets/work/posh-by-her/foto-07.jpg', alt: 'Posh by Her product photo', caption: 'Session 1' },
-  ]}
-/>
-
-## Outcome
-
-- One set of product photos ready for both content and catalogue.
-- Consistent colour and lighting, so material from different sessions can be combined.
+[Explore all photography albums](/en/fotografi/)

@@ -1,58 +1,36 @@
 ---
 lang: id
 slug: posh-by-her
-order: 6
-title: "Fotografi Produk Posh by Her"
-tagline: "Memotret dan mengolah foto produk agar layak tampil sebagai materi promosi brand."
-summary: "Sesi foto produk dan pengolahan hasil untuk kebutuhan konten serta katalog sebuah brand."
-role: "Fotografer & Retoucher"
+order: 8
+title: "Fotografi Acara Posh by Her"
+tagline: "Merekam potret tamu, interaksi, dan suasana acara Posh by Her."
+summary: "Fotografi acara Posh by Her: perencanaan pemotretan, dokumentasi kegiatan, seleksi foto, dan pengolahan hasil di Lightroom."
+role: "Fotografer Acara"
 client: "Posh by Her"
 year: "2026"
 disciplines: ["foto"]
-scope: ["Foto produk", "Retouching", "Materi katalog"]
-tools: ["Lightroom", "Photoshop"]
+scope: ["Perencanaan pemotretan", "Dokumentasi acara", "Seleksi & editing foto"]
+tools: ["Adobe Lightroom"]
 cover: "/assets/work/posh-by-her/cover.jpg"
 featured: true
 status: live
 ---
 
 import Gallery from '../../../components/Gallery.astro';
+import { getPoshPhotos } from '../../../data/photography';
 
-## Konteks
+## Tentang proyek
 
-Brand membutuhkan foto produk yang bisa dipakai berulang: untuk konten media sosial sekaligus materi katalog, dengan warna yang konsisten antar sesi.
+Dokumentasi acara Posh by Her pada Oktober 2026. Foto-foto menampilkan tamu, potret individu dan kelompok, serta interaksi selama acara.
 
 ## Peran saya
 
-Memotret, menyeleksi hasil, lalu mengolah sampai siap tayang sesuai arahan klien.
+Sebagai fotografer acara freelance, saya menyiapkan rencana pemotretan, mendokumentasikan kegiatan mingguan selama satu bulan, lalu menyeleksi dan mengolah foto di Lightroom.
 
-## Batasan
+## Materi proyek
 
-- Ruang dan peralatan terbatas, jadi pencahayaan disusun sederhana tetapi konsisten.
-- Warna produk harus tetap akurat — tidak boleh terlihat berbeda dari barang aslinya.
-- Hasil dari sesi berbeda harus tetap terasa satu rangkaian.
+Galeri ini memuat seluruh foto Posh by Her yang tersedia di situs. Foto yang sama juga dapat dijelajahi melalui halaman Fotografi.
 
-## Proses
+<Gallery natural items={getPoshPhotos('id')} />
 
-1. **Menyiapkan set sederhana** dan menetapkan posisi cahaya untuk semua produk.
-2. **Memotret beberapa sudut** per produk agar ada pilihan saat disusun jadi konten.
-3. **Menyeleksi** frame terbaik dan membuang yang tidak memenuhi standar.
-4. **Mengolah di Lightroom**: koreksi warna, kontras, membersihkan latar dan noda kecil.
-
-<Gallery
-  natural
-  items={[
-    { src: '/assets/work/posh-by-her/foto-01.jpg', alt: 'Foto produk Posh by Her', caption: 'Sesi 1' },
-    { src: '/assets/work/posh-by-her/foto-02.jpg', alt: 'Foto produk Posh by Her', caption: 'Sesi 1' },
-    { src: '/assets/work/posh-by-her/foto-03.jpg', alt: 'Foto produk Posh by Her', caption: 'Sesi 1' },
-    { src: '/assets/work/posh-by-her/foto-04.jpg', alt: 'Foto produk Posh by Her', caption: 'Sesi 1' },
-    { src: '/assets/work/posh-by-her/foto-05.jpg', alt: 'Foto produk Posh by Her', caption: 'Sesi 1' },
-    { src: '/assets/work/posh-by-her/foto-06.jpg', alt: 'Foto produk Posh by Her', caption: 'Sesi 1' },
-    { src: '/assets/work/posh-by-her/foto-07.jpg', alt: 'Foto produk Posh by Her', caption: 'Sesi 1' },
-  ]}
-/>
-
-## Hasil
-
-- Satu set foto produk siap pakai untuk konten dan katalog.
-- Warna dan pencahayaan konsisten sehingga materi dari sesi berbeda bisa disatukan.
+[Jelajahi seluruh album fotografi](/fotografi/)
