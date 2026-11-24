@@ -2,19 +2,19 @@
 import type { Lang } from '../i18n/ui';
 interface Props { lang: Lang; }
 const id = Astro.props.lang === 'id';
-const base = '/assets/composelab/';
+const classPhoto = '/assets/composelab/kelas.webp';
 const previews = [
-  { file: 'beranda', label: id ? 'Beranda ComposeLab' : 'ComposeLab homepage', width: 814, height: 348 },
-  { file: 'modul', label: id ? 'Modul pertama · Android Studio' : 'First module · Android Studio', width: 365, height: 312 },
-  { file: 'tutorial', label: id ? 'Panduan praktik siswa' : 'Student practice guide', width: 1200, height: 574 },
+  { file: '/assets/composelab/beranda.webp', label: id ? 'Beranda ComposeLab' : 'ComposeLab homepage', width: 814, height: 348 },
+  { file: '/assets/composelab/modul.webp', label: id ? 'Modul pertama · Android Studio' : 'First module · Android Studio', width: 365, height: 312 },
+  { file: '/assets/composelab/tutorial.webp', label: id ? 'Panduan praktik siswa' : 'Student practice guide', width: 1200, height: 574 },
 ];
 ---
 <section class="section" id="composelab" aria-labelledby="composelab-title">
   <div class="wrap">
     <div class="section-kicker"><p class="eyebrow">{id ? 'Pengalaman mengajar' : 'Teaching experience'}</p></div>
     <div class="feature">
-      <a href={base + 'kelas.webp'} data-lightbox-link>
-        <img src={base + 'kelas.webp'} width="1200" height="670" loading="lazy" alt={id ? 'Foto bersama peserta pelatihan ComposeLab di SMK Negeri 1 Jakarta' : 'Group photo with ComposeLab workshop participants at SMK Negeri 1 Jakarta'} />
+      <a href={classPhoto} data-lightbox-link>
+        <img src={classPhoto} width="1200" height="670" loading="lazy" alt={id ? 'Foto bersama peserta pelatihan ComposeLab di SMK Negeri 1 Jakarta' : 'Group photo with ComposeLab workshop participants at SMK Negeri 1 Jakarta'} />
       </a>
       <div class="copy">
         <p class="eyebrow">SMK Negeri 1 Jakarta</p>
@@ -27,8 +27,8 @@ const previews = [
     <div class="previews">
       {previews.map(({ file, label, width, height }) => (
         <figure>
-          <a href={base + file + '.webp'} data-lightbox-link>
-            <img src={base + file + '.webp'} alt={label} width={width} height={height} loading="lazy" decoding="async" />
+          <a href={file} data-lightbox-link>
+            <img src={file} alt={label} width={width} height={height} loading="lazy" decoding="async" />
           </a>
           <figcaption>{label}</figcaption>
         </figure>
