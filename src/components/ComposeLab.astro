@@ -1,13 +1,11 @@
 ---
+import { composeLab } from '../data/portfolio';
 import type { Lang } from '../i18n/ui';
 interface Props { lang: Lang; }
-const id = Astro.props.lang === 'id';
+const { lang } = Astro.props;
+const id = lang === 'id';
 const classPhoto = '/assets/composelab/kelas.webp';
-const previews = [
-  { file: '/assets/composelab/beranda.webp', label: id ? 'Beranda ComposeLab' : 'ComposeLab homepage', width: 2048, height: 877 },
-  { file: '/assets/composelab/modul.webp', label: id ? 'Modul pertama · Android Studio' : 'First module · Android Studio', width: 2048, height: 1522 },
-  { file: '/assets/composelab/tutorial.webp', label: id ? 'Panduan praktik siswa' : 'Student practice guide', width: 2048, height: 1156 },
-];
+
 ---
 <section class="section" id="composelab" aria-labelledby="composelab-title">
   <div class="wrap">
@@ -17,20 +15,20 @@ const previews = [
         <img src={classPhoto} width="1200" height="670" loading="lazy" alt={id ? 'Foto bersama peserta pelatihan ComposeLab di SMK Negeri 1 Jakarta' : 'Group photo with ComposeLab workshop participants at SMK Negeri 1 Jakarta'} />
       </a>
       <div class="copy">
-        <p class="eyebrow">SMK Negeri 1 Jakarta</p>
+        <p class="eyebrow">{composeLab.school}</p>
         <h2 id="composelab-title">ComposeLab</h2>
-        <p><strong>Guest Teacher · Vibe Coding</strong></p>
-        <p>{id ? 'Saya membuat ComposeLab untuk mengajarkan pengembangan aplikasi Android dengan Kotlin dan Jetpack Compose. Selama satu bulan, saya membimbing siswa dari latihan di modul hingga praktik membuat aplikasi. Enam kelompok siswa masing-masing menghasilkan satu aplikasi Android.' : 'I built ComposeLab to teach Android development with Kotlin and Jetpack Compose. Over one month, I guided students from module exercises to building their own apps. Each of the six student teams created an Android app.'}</p>
-        <a class="btn" href="https://vibe-code-learning-platform.vercel.app/beranda">{id ? 'Buka modul ComposeLab' : 'Explore the ComposeLab modules'} <span aria-hidden="true">↗</span></a>
+        <p><strong>{composeLab.role}</strong></p>
+        <p>{composeLab.description[lang]}</p>
+        <a class="btn" href={composeLab.url}>{id ? 'Buka modul ComposeLab' : 'Explore the ComposeLab modules'} <span aria-hidden="true">↗</span></a>
       </div>
     </div>
     <div class="previews">
-      {previews.map(({ file, label, width, height }) => (
+      {composeLab.previews.map(({ file, label, width, height }) => (
         <figure>
           <a href={file} data-lightbox-link>
-            <img src={file} alt={label} width={width} height={height} loading="lazy" decoding="async" />
+            <img src={file} alt={label[lang]} width={width} height={height} loading="lazy" decoding="async" />
           </a>
-          <figcaption>{label}</figcaption>
+          <figcaption>{label[lang]}</figcaption>
         </figure>
       ))}
     </div>

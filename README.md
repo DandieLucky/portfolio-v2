@@ -101,6 +101,16 @@ membuat placeholder dan dapat menimpa media. Gunakan aset yang sudah tersedia.
 
 ## Build dan hosting
 
+Build membuat PDF portofolio dari data situs dengan template cetak
+`src/pages/portfolio-print.astro`. GitHub Actions memasang WeasyPrint lalu
+menerbitkan PDF bersama situs pada setiap push ke `main`. Tombol **Unduh
+Portofolio PDF** di kedua versi bahasa mengunduh edisi Bahasa Indonesia yang sama.
+
+Untuk build lokal, gunakan Python 3.10+ dan WeasyPrint beserta pustaka Pango
+(`brew install pango` di macOS atau paket `libpango-1.0-0` dan
+`libpangoft2-1.0-0` di Debian/Ubuntu). Aktifkan virtual environment Python,
+lalu jalankan `python -m pip install -r scripts/requirements-portfolio-pdf.txt`.
+
 ```bash
 npm run build
 npm run preview

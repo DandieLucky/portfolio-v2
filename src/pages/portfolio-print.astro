@@ -1,0 +1,225 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/fraunces/wght-italic.css';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/portfolio-print.css';
+import Icon from '../components/Icon.astro';
+import { getWork } from '../lib/work';
+import { site, ui } from '../i18n/ui';
+import { composeLab, heroIntro, portfolioPdf } from '../data/portfolio';
+import { printProjects } from '../data/portfolio-print';
+import { getPhotographyAlbums, getPoshPhotos } from '../data/photography';
+import { projectPreviews } from '../data/project-previews';
+import { disciplineLabel } from '../data/disciplines';
+import { timeline, skills } from '../data/timeline';
+import { lab } from '../data/lab';
+
+const t = ui.id;
+const published = new URL(import.meta.env.SITE_BASE || '/portfolio-v2', Astro.site);
+const web = (path = '/') => published.href.replace(/\/$/, '') + path;
+const projects = await getWork('id');
+const archives = getPhotographyAlbums('id').find((album) => album.id === 'arsip-foto')?.items ?? [];
+const posh = getPoshPhotos('id').filter(({ src }) => !printProjects['posh-by-her'].images?.slice(1).includes(src));
+const split = <T,>(items: T[], size: number) => Array.from({ length: Math.ceil(items.length / size) }, (_, i) => items.slice(i * size, (i + 1) * size));
+const projectId = (slug: string) => 'karya-' + slug;
+const pageNumber = (n: number) => String(n).padStart(2, '0');
+const indexPages = split(projects, 12);
+if (!indexPages.length) indexPages.push([]);
+const pages = [
+  { id: 'sampul', label: 'Portofolio kreatif' },
+  ...indexPages.map((_, i) => ({ id: i === 0 ? 'indeks' : 'indeks-' + (i + 1), label: 'Indeks karya', part: i })),
+  ...projects.flatMap(({ data }) => [
+    { id: projectId(data.slug), label: data.title, project: data },
+    ...(data.slug === 'posh-by-her' ? split(posh, 9).map((photos, i) => ({
+      id: 'posh-foto-' + i, label: 'Fotografi / Posh by Her', photos, part: i,
+    })) : []),
+  ]),
+  ...[archives.slice(0, 5), ...split(archives.slice(5), 6)].filter((items) => items.length).map((photos, i) => ({
+    id: 'foto-' + i, label: 'Fotografi / Arsip pribadi', photos, part: i,
+  })),
+  { id: 'composelab', label: 'Pengalaman mengajar' },
+  { id: 'tentang', label: 'Tentang' },
+  ...split(timeline, 12).map((experience, i) => ({
+    id: i === 0 ? 'pengalaman' : 'pengalaman-' + (i + 1), label: 'Tentang / Pengalaman & keahlian', experience,
+  })),
+  ...split(lab, 3).map((experiments, i) => ({
+    id: i === 0 ? 'lab' : 'lab-' + (i + 1), label: 'Lab', experiments,
+  })),
+  { id: 'kontak', label: 'Kontak' },
+];
+const numberFor = (id: string) => pageNumber(pages.findIndex((sheet) => sheet.id === id) + 1);
+const navigation = [
+  ['indeks', 'Karya'], [archives.length ? 'foto-0' : 'indeks', 'Fotografi'],
+  ['tentang', 'Tentang'], ['lab', 'Lab'], ['kontak', 'Kontak'],
+].filter(([id]) => pages.some((page) => page.id === id));
+---
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <meta name="author" content={site.name} />
+  <meta name="description" content={t.home.description} />
+  <meta name="portfolio-pdf" content={portfolioPdf} />
+  <title>Portofolio Kreatif | {site.name}</title>
+</head>
+<body>
+{pages.map((sheet, index) => {
+  const outer = sheet.id === 'sampul' || sheet.id === 'kontak';
+  return (
+    <section class:list={['sheet', { outer }]} id={sheet.id}>
+      <header class="deck-header">
+        <a class="wordmark" href="#sampul">
+          <span class="mark">d<Icon kind="spark" /></span>
+          <span>dandie<small>VISUAL CREATIVE</small></span>
+        </a>
+        {outer ? <nav aria-label="Navigasi PDF">{navigation.map(([id, label]) => <span><a href={'#' + id}>{label}</a></span>)}</nav> :
+          <span><a class="reference" href="#indeks">← &nbsp; INDEKS KARYA</a></span>}
+        {outer && <span class="language reference">ID</span>}
+      </header>
+      <main class="sheet-content">
+        {sheet.id === 'sampul' && <>
+          <p class="kicker">Portofolio kreatif / 2024–2026 <span>Jakarta, Indonesia →</span></p>
+          <div class="cover-grid">
+            <div class="cover-copy">
+              <p class="greeting"><Icon kind="spark" /> Halo, saya Dandie</p>
+              <h1>Ide yang hidup.<br />Visual yang<br /><em>bercerita.</em></h1>
+              <p class="cover-intro"><strong>{site.name}</strong><br />{heroIntro.id}</p>
+              <div class="actions"><span><a class="button primary" href="#indeks">Jelajahi karya →</a></span><span><a class="button" href={web(site.cv)}>Unduh CV →</a></span></div>
+              <p class="available">{t.ui.available}</p>
+            </div>
+            <div class="cover-art">
+              <span class="reference">● &nbsp; DI MEJA KREATIF</span>
+              <figure class="cover-print poster"><img src="/assets/work/olimpiade-polimedia-2025/poster-04.jpg" alt="Desain Olimpiade Polimedia" /><figcaption>01 &nbsp; GRAPHIC DESIGN</figcaption></figure>
+              <figure class="cover-print photo"><img src="/assets/work/posh-by-her/foto-01.jpg" alt="Fotografi Posh by Her" /><figcaption>02 &nbsp; PHOTOGRAPHY</figcaption></figure>
+              <span class="cover-spark"><Icon kind="spark" /></span>
+            </div>
+          </div>
+        </>}
+
+        {sheet.id.startsWith('indeks') && 'part' in sheet && <>
+          <p class="kicker">Arsip kreatif / {projects.length} proyek</p>
+          <div class="heading-row"><h1>Karya & <em>eksplorasi.</em></h1><p>Pilih nama proyek untuk membuka halamannya.</p></div>
+          <div class="index-list">
+            {indexPages[sheet.part].map(({ data }) => {
+              const thumb = projectPreviews[data.slug]?.src ?? data.cover;
+              const name = printProjects[data.slug]?.title.join(' ').replace(/\.$/, '') ?? data.title;
+              return <a class="index-item" href={'#' + projectId(data.slug)}>
+                {thumb ? <img src={thumb} alt="" /> : <span class="empty-thumb"></span>}
+                <span><strong>{data.slug === 'snackpedia' ? 'Snackpedia' : name}</strong><small>{data.disciplines.map((value) => disciplineLabel(value, 'id')).join(' · ')}</small></span>
+                <span class="reference">{numberFor(projectId(data.slug))} →</span>
+              </a>;
+            })}
+          </div>
+          <nav class="index-nav reference" aria-label="Bagian portofolio">
+            {pages.filter(({ id }) => ['foto-0', 'composelab', 'tentang', 'lab', 'kontak'].includes(id) || id.startsWith('indeks-')).map(({ id, label }) => <span><a href={'#' + id}>{id === 'composelab' ? 'ComposeLab' : label.split(' / ')[0]} &nbsp; {numberFor(id)} →</a></span>)}
+          </nav>
+        </>}
+
+        {'project' in sheet && (() => {
+          const p = sheet.project;
+          const print = printProjects[p.slug];
+          const media = print?.images ?? (p.cover ? [p.cover] : []);
+          return <>
+            <p class="kicker">{pageNumber(p.order)} / {p.disciplines.map((value) => disciplineLabel(value, 'id')).join(' / ')} {p.year && p.year !== '—' && ' / ' + p.year}</p>
+            <div class="project-grid">
+              <div class="project-copy">
+                <h1>{print ? <>{print.title[0]}{p.slug !== 'snackpedia' && <br />}<em>{print.title[1]}</em></> : p.title}</h1>
+                <p class="tagline">{p.tagline}</p>
+                {p.summary !== p.tagline && <p class="project-summary">{p.summary}</p>}
+                <dl class="metadata">
+                  <div><dt>Peran</dt><dd>{p.role}</dd></div>
+                  {p.tools.length > 0 && <div><dt>Alat</dt><dd>{p.tools.join(' · ')}</dd></div>}
+                </dl>
+                <a class="inline-link" href={web('/work/' + p.slug + '/')}>Lihat proyek di web →</a>
+              </div>
+              <div class:list={['project-media', print?.layout, 'media-' + media.length]}>
+                {media.map((src) => <figure class:list={[{ 'nexa-dark': p.slug === 'nexa' && src.endsWith('/logo 3.png') }]}><img src={src} alt={p.title} /></figure>)}
+              </div>
+            </div>
+          </>;
+        })()}
+
+        {'photos' in sheet && <>
+          <p class="kicker">{sheet.label}</p>
+          <h1>{sheet.id.startsWith('posh') ? <>Dalam satu <em>acara.</em></> : sheet.part === 0 ? <>Melihat. <em>Merekam.</em></> : <>Di luar <em>proyek klien.</em></>}</h1>
+          <div class:list={['photo-grid', sheet.id.startsWith('posh') ? 'event-photos' : 'archive-photos']}>
+            {sheet.photos.map(({ src, alt }) => <figure><img src={src} alt={alt} /></figure>)}
+          </div>
+          <a class="inline-link" href={web('/fotografi/')}>Jelajahi galeri fotografi →</a>
+        </>}
+
+        {sheet.id === 'composelab' && <>
+          <p class="kicker">Pengalaman mengajar / {composeLab.school}</p>
+          <h1>ComposeLab.</h1>
+          <p class="compose-role">{composeLab.role}</p>
+          <p class="compose-summary">{composeLab.description.id}</p>
+          <div class="compose-grid">
+            {composeLab.previews.map(({ file, label }) => <figure><img src={file} alt={label.id} /><figcaption>{label.id}</figcaption></figure>)}
+          </div>
+          <div class="actions"><span><a class="inline-link" href={composeLab.url}>Buka ComposeLab →</a></span><span><a class="inline-link" href={web('/#composelab')}>Lihat versi web →</a></span></div>
+        </>}
+
+        {sheet.id === 'tentang' && <>
+          <p class="kicker">Tentang / {site.name}</p>
+          <div class="about-grid">
+            <figure><img src="/assets/about/portrait.jpg" alt={site.name} /></figure>
+            <div>
+              <h1>Kenalan dulu,<br /><em>saya Dandie.</em></h1>
+              {t.about.paragraphs.map((p) => <p>{p}</p>)}
+              <a class="button" href={web(site.cv)}>Unduh CV lengkap →</a>
+            </div>
+          </div>
+        </>}
+
+        {'experience' in sheet && <>
+          <p class="kicker">Tentang / Pengalaman & keahlian</p>
+          <h1>Belajar lewat <em>karya nyata.</em></h1>
+          <div class="experience-grid">
+            <section><h2 class="reference">Pengalaman</h2>
+              {sheet.experience.map(({ year, org, role }) => <div class="experience-row"><span>{year}</span><strong>{org.id}</strong><span>{role.id}</span></div>)}
+            </section>
+            <section><h2 class="reference">Keahlian & alat</h2>
+              {skills.map(({ title, items }) => <div class="skill"><strong>{title.id}</strong><p>{items.join(' · ')}</p></div>)}
+            </section>
+          </div>
+        </>}
+
+        {'experiments' in sheet && <>
+          <p class="kicker">Lab / Di luar brief</p>
+          <h1>Kalau dicoba, <em>gimana?</em></h1>
+          <p>{t.lab.lede}</p>
+          <div class="lab-grid">
+            {sheet.experiments.map((item) => <article>
+              <p class="reference">{item.n} / Eksperimen <span>{item.status.id}</span></p>
+              <h2>{item.title.id}</h2><p>{item.body.id}</p>
+              <p class="reference">{item.stack.join(' · ')}</p>
+            </article>)}
+          </div>
+          <a class="inline-link" href={web('/lab/')}>Buka Lab di web →</a>
+        </>}
+
+        {sheet.id === 'kontak' && <>
+          <p class="kicker">Kontak / Jakarta, Indonesia</p>
+          <div class="contact-grid">
+            <div><h1>Punya ide?<br /><em>Ayo bikin.</em></h1><p>{t.contact.body}</p><p class="available">{t.ui.available}</p></div>
+            <div class="contact-panel">
+              <a href={'mailto:' + site.email}><span>Email</span>{site.email}</a>
+              <a href={site.whatsapp}><span>WhatsApp</span>{site.phone}</a>
+              <a href={site.linkedin}><span>LinkedIn</span>{site.name}</a>
+              <a class="web-card" href={web()}>
+                <img src="/assets/portfolio/website-qr.png" alt="" />
+                <div><span>Portofolio versi web</span>{web().replace(/^https:\/\//, '')}</div>
+              </a>
+            </div>
+          </div>
+        </>}
+      </main>
+      <footer class="deck-footer reference"><span>{site.name} &nbsp; / &nbsp; {sheet.label}</span><span>{pageNumber(index + 1)} &nbsp;/&nbsp; {pageNumber(pages.length)}</span></footer>
+    </section>
+  );
+})}
+</body>
+</html>

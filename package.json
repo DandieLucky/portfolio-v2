@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "node scripts/check-assets.mjs --summary && node scripts/make-asset-meta.mjs && astro build && node scripts/make-sitemap.mjs && node scripts/apply-site-base.mjs",
+    "build": "node scripts/check-assets.mjs --summary && node scripts/make-asset-meta.mjs && astro build && python3 scripts/make-portfolio-pdf.py && node scripts/make-sitemap.mjs && node scripts/apply-site-base.mjs",
     "preview": "astro preview",
     "check-assets": "node scripts/check-assets.mjs",
     "assets:placeholders": "python3 scripts/make-placeholders.py",

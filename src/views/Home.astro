@@ -4,6 +4,7 @@ import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { ui, href, site, type Lang } from '../i18n/ui';
+import { heroIntro, portfolioPdf } from '../data/portfolio';
 import { getFeatured } from '../lib/work';
 import { disciplineLabel } from '../data/disciplines';
 interface Props { lang: Lang; }
@@ -22,8 +23,14 @@ const serviceNotes = id ? ['Karakter visual sebuah brand.', 'Ide yang menemukan 
         <div class="creative-hero-copy">
           <p class="hero-greeting"><span class="mini-star" aria-hidden="true"><Icon kind="spark" /></span> {id ? 'Halo, saya Dandie' : 'Hello, I’m Dandie'}</p>
           <h1>{id ? 'Ide yang hidup.' : 'Ideas come alive.'}<br />{id ? 'Visual yang' : 'Visuals tell'}<br /><em>{id ? 'bercerita.' : 'a story.'}</em><span class="title-spark" aria-hidden="true"><Icon kind="spark" /></span></h1>
-          <p class="hero-intro">{id ? 'Desainer grafis & kreator visual. Merangkai desain, motion, dan fotografi menjadi karya yang punya karakter.' : 'Graphic designer & visual creative. Bringing design, motion, and photography together to make work with character.'}</p>
-          <div class="hero-actions"><a class="btn btn--ink" href="#work">{id ? 'Jelajahi karya' : 'Explore my work'} <span aria-hidden="true"><Icon /></span></a><a class="text-download" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a></div>
+          <p class="hero-intro">{heroIntro[lang]}</p>
+          <div class="hero-actions">
+            <a class="btn btn--ink" href="#work">{id ? 'Jelajahi karya' : 'Explore my work'} <span aria-hidden="true"><Icon /></span></a>
+            <div class="hero-downloads">
+              <a class="text-download" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a>
+              <a class="text-download" href={portfolioPdf} download>{id ? 'Unduh Portofolio PDF' : 'Download Portfolio PDF'} <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
           <p class="hero-availability"><span class="availability"><i aria-hidden="true"></i>{t.ui.available}</span></p>
         </div>
         <div class="canvas-scene">
@@ -66,3 +73,7 @@ const serviceNotes = id ? ['Karakter visual sebuah brand.', 'Ide yang menemukan 
     </div>
   </section>
 </Base>
+
+<style>
+  .hero-downloads { display: flex; align-items: center; flex-wrap: wrap; column-gap: 1rem; row-gap: .5rem; }
+</style>

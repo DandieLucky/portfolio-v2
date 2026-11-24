@@ -3,6 +3,22 @@
     1200,
     1500
   ],
+  "/assets/composelab/beranda.webp": [
+    2048,
+    877
+  ],
+  "/assets/composelab/kelas.webp": [
+    1200,
+    670
+  ],
+  "/assets/composelab/modul.webp": [
+    2048,
+    1522
+  ],
+  "/assets/composelab/tutorial.webp": [
+    2048,
+    1156
+  ],
   "/assets/gallery/foto-01.jpg": [
     1600,
     1063
@@ -50,6 +66,10 @@
   "/assets/og.png": [
     1200,
     630
+  ],
+  "/assets/portfolio/website-qr.png": [
+    201,
+    201
   ],
   "/assets/work/Branding Snackpedia/1.png": [
     1200,

@@ -34,6 +34,15 @@ jobs:
       - name: Pasang dependensi
         run: npm ci
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: scripts/requirements-portfolio-pdf.txt
+
+      - name: Pasang renderer PDF
+        run: python -m pip install -r scripts/requirements-portfolio-pdf.txt
+
       - name: Build
         env:
           SITE_BASE: /portfolio-v2

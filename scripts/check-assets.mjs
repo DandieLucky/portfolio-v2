@@ -7,6 +7,8 @@ import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
+import { portfolioPdf } from '../src/data/portfolio-path.mjs';
+
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const manifestPath = join(root, 'src/data/assets.json');
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
@@ -36,6 +38,8 @@ function collectReferences(dir) {
   }
 }
 collectReferences(join(root, 'src'));
+// PDF portofolio dibuat di dist saat build, bukan di public.
+references.delete(portfolioPdf);
 for (const rel of references) {
   const file = join(root, 'public', rel.replace(/^\//, ''));
   if (!existsSync(file) || !statSync(file).isFile() || statSync(file).size === 0) missing.push(rel);
