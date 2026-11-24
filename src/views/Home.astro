@@ -1,4 +1,5 @@
 ---
+import ComposeLab from '../components/ComposeLab.astro';
 import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -51,6 +52,7 @@ const serviceNotes = id ? ['Karakter visual sebuah brand.', 'Ide yang menemukan 
       <div class="all-work-bar"><p>{id ? 'Setiap proyek punya ceritanya sendiri.' : 'Every project has a story of its own.'}</p><a class="btn" href={href('/work', lang)}>{t.ui.seeAll} <span aria-hidden="true"><Icon /></span></a></div>
     </div>
   </section>
+  <ComposeLab lang={lang} />
   <section class="creative-toolbox section">
     <div class="wrap">
       <div class="section-kicker"><p class="eyebrow"><span class="section-number">02</span> {id ? 'Ruang eksplorasi' : 'Room to explore'}</p><span class="edition-label">{id ? 'LINTAS MEDIUM' : 'ACROSS MEDIUMS'}</span></div>

@@ -1,0 +1,48 @@
+---
+import type { Lang } from '../i18n/ui';
+interface Props { lang: Lang; }
+const id = Astro.props.lang === 'id';
+const base = '/assets/composelab/';
+const previews = [
+  { file: 'beranda', label: id ? 'Beranda ComposeLab' : 'ComposeLab homepage', width: 814, height: 348 },
+  { file: 'modul', label: id ? 'Modul pertama · Android Studio' : 'First module · Android Studio', width: 365, height: 312 },
+  { file: 'tutorial', label: id ? 'Panduan praktik siswa' : 'Student practice guide', width: 1200, height: 574 },
+];
+---
+<section class="section" id="composelab" aria-labelledby="composelab-title">
+  <div class="wrap">
+    <div class="section-kicker"><p class="eyebrow">{id ? 'Pengalaman mengajar' : 'Teaching experience'}</p></div>
+    <div class="feature">
+      <a href={base + 'kelas.webp'} data-lightbox-link>
+        <img src={base + 'kelas.webp'} width="1200" height="670" loading="lazy" alt={id ? 'Foto bersama peserta pelatihan ComposeLab di SMK Negeri 1 Jakarta' : 'Group photo with ComposeLab workshop participants at SMK Negeri 1 Jakarta'} />
+      </a>
+      <div class="copy">
+        <p class="eyebrow">SMK Negeri 1 Jakarta</p>
+        <h2 id="composelab-title">ComposeLab</h2>
+        <p><strong>Guest Teacher · Vibe Coding</strong></p>
+        <p>{id ? 'Saya membuat ComposeLab untuk mengajarkan pengembangan aplikasi Android dengan Kotlin dan Jetpack Compose. Selama satu bulan, saya membimbing siswa dari latihan di modul hingga praktik membuat aplikasi. Enam kelompok siswa masing-masing menghasilkan satu aplikasi Android.' : 'I built ComposeLab to teach Android development with Kotlin and Jetpack Compose. Over one month, I guided students from module exercises to building their own apps. Each of the six student teams created an Android app.'}</p>
+        <a class="btn" href="https://vibe-code-learning-platform.vercel.app/beranda">{id ? 'Buka modul ComposeLab' : 'Explore the ComposeLab modules'} <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="previews">
+      {previews.map(({ file, label, width, height }) => (
+        <figure>
+          <a href={base + file + '.webp'} data-lightbox-link>
+            <img src={base + file + '.webp'} alt={label} width={width} height={height} loading="lazy" decoding="async" />
+          </a>
+          <figcaption>{label}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .feature { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: clamp(1.5rem, 4vw, 4rem); }
+  .copy { display: grid; justify-items: start; gap: 1rem; }
+  .feature img, .previews img { display: block; width: 100%; height: auto; border-radius: 1rem; }
+  .previews { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.25rem; margin-top: 2rem; }
+  .previews figure { margin: 0; }
+  .previews img { aspect-ratio: 16/9; object-fit: contain; background: #f6fafc; border: 1px solid #dde2eb; }
+  figcaption { margin-top: .55rem; }
+  @media (max-width: 720px) { .feature, .previews { grid-template-columns: 1fr; } }
+</style>
