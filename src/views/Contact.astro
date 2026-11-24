@@ -1,4 +1,5 @@
 ---
+import DocumentDownloads from '../components/DocumentDownloads.astro';
 import Base from '../layouts/Base.astro';
 import { ui, site, type Lang } from '../i18n/ui';
 import '../styles/secondary.css';
@@ -36,7 +37,7 @@ const rows = [
       <div class="v2-channel-list">{rows.map((row, i) => (
         <a class="v2-channel" href={row.url} target="_blank" rel="noopener noreferrer" data-reveal><span class="v2-list-number">0{i + 1}</span><div><h2>{row.label}</h2><p>{row.value}</p></div><span class="v2-channel-detail">{row.detail}</span><span class="v2-channel-arrow" aria-hidden="true">↗</span></a>
       ))}</div>
-      <div class="v2-contact-cv"><div><h2>{id ? 'Kenali pengalaman saya.' : 'Get to know my work.'}</h2><p>{id ? 'Latar belakang, pengalaman, dan keahlian dalam satu PDF.' : 'Background, experience, and skills in one PDF.'}</p></div><a class="btn" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a></div>
+      <div class="v2-contact-cv"><div><h2>{id ? 'Kenali pengalaman saya.' : 'Get to know my work.'}</h2><p>{id ? 'Unduh CV dan portofolio karya dalam format PDF.' : 'Download my CV and selected work as PDFs.'}</p></div><DocumentDownloads lang={lang} /></div>
     </div>
   </section>
 </Base>

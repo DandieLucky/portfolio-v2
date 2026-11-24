@@ -1,0 +1,29 @@
+---
+import { portfolioPdf } from '../data/portfolio';
+import { site, ui, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  variant?: 'button' | 'text' | 'footer';
+}
+
+const { lang, variant = 'button' } = Astro.props;
+const linkClass = variant === 'footer' ? undefined : variant === 'text' ? 'text-download' : 'btn';
+---
+<div class:list={['downloads', { 'downloads--footer': variant === 'footer' }]}>
+  <a class={linkClass} href={site.cv} download>{ui[lang].ui.cv} <span aria-hidden="true">↓</span></a>
+  <a class={linkClass} href={portfolioPdf} download>
+    {lang === 'id' ? 'Unduh Portofolio PDF' : 'Download Portfolio PDF'} <span aria-hidden="true">↓</span>
+  </a>
+</div>
+
+<style>
+  .downloads {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .65rem 1rem;
+  }
+  .downloads--footer { display: contents; }
+  .downloads .btn { max-width: 100%; gap: 1rem; }
+</style>

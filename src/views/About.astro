@@ -1,4 +1,5 @@
 ---
+import DocumentDownloads from '../components/DocumentDownloads.astro';
 import Base from '../layouts/Base.astro';
 import Slot from '../components/Slot.astro';
 import { ui, site, type Lang } from '../i18n/ui';
@@ -34,7 +35,7 @@ const orderedTimeline = [...timeline].sort((a, b) => {
             <div><span>{id ? 'Pendidikan' : 'Education'}</span><strong>D4 Teknologi Rekayasa Multimedia</strong><small>Polimedia · 2024–2028</small></div>
             <div><span>{id ? 'Saat ini' : 'Currently'}</span><strong>Semester 5</strong><small>{id ? 'IPK 3,86/4,00 · hingga semester 4' : 'GPA 3.86/4.00 · through semester 4'}</small></div>
           </div>
-          <div class="v2-actions"><a class="btn" href={site.cv} download>{t.ui.cv} <span aria-hidden="true">↓</span></a><a class="link" href={`mailto:${site.email}`}>{id ? 'Ajak kolaborasi' : 'Let’s collaborate'} <span class="v2-inline-arrow" aria-hidden="true">↗</span></a></div>
+          <div class="v2-actions"><DocumentDownloads lang={lang} /><a class="link" href={`mailto:${site.email}`}>{id ? 'Ajak kolaborasi' : 'Let’s collaborate'} <span class="v2-inline-arrow" aria-hidden="true">↗</span></a></div>
         </div>
       </div>
     </div>
